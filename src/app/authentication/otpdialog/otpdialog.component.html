@@ -1,0 +1,67 @@
+<div class="otp-container" *ngIf="!showChangePassword">
+    <!-- style="height: 350px; width: 350px;" -->
+  <h3 mat-dialog-title class="login-head" style="font-size: 24px; text-align: center; margin-bottom: 0px;">OTP Verification</h3>
+  <div mat-dialog-content style="text-align: center; margin-bottom: 0px; padding-bottom: 0px;">
+    <p class="login-text" style="font-size: 16px; color: #555; margin-bottom: 0px;">Email: {{ data.email }}</p>
+    <!-- Add your OTP input and verification logic here -->
+    <div class="input-addon" style="display: flex; align-items: center; justify-content: center; gap: 10px; margin-top: 20px; margin-bottom: 0px;">
+      <!-- <countdown [config]="{ leftTime: 100, format: 'm:s' }" /> -->
+      <!-- <countdown [config]="{ leftTime: 120, format: 'mm:ss' }" style="width: 100px;"></countdown> -->
+      <mat-form-field class="form-control" style="border-style: none; height: auto; width: 60%;  margin-top: 20px;">
+        <mat-label>OTP</mat-label>
+        <input matInput placeholder="12345" [formControl]="OTP" required>
+      </mat-form-field>
+      
+      <button mat-button class="btn btn-xl btn-primary" style="height: 56px;" (click)="startCountdown(3*60);" [disabled]="buttonDisabled">
+        <div *ngIf="buttonDisabled" style="width: 70px; font-size:larger;color: black;">{{ countdownMinutes }}:{{ countdownSeconds }}</div>
+        <div *ngIf="!buttonDisabled">Send Otp</div>
+      </button>    
+      
+    </div>
+    <div mat-dialog-actions style="display: flex; justify-content: space-between; padding: 20px 20px;">
+      <button mat-button (click)="onNoClick()" class="btn btn-xl btn-primary" style="flex: 1; margin: 0 10px;">Cancel</button>
+      <button mat-button class="btn btn-xl btn-primary" style="flex: 1; margin: 0 10px;" (click)="onVerify()">Verify</button>
+    </div>
+  </div>
+  </div>
+  
+  
+  <div class="changepassword-container"  *ngIf="showChangePassword">
+    <!-- style="height: 400px; width: 350px;" -->
+    <h3 mat-dialog-title class="login-head" style="font-size: 24px; text-align: center; margin-bottom: 0px; padding:0 100px;">Change Password</h3>
+    <div mat-dialog-content style="text-align: center; margin-bottom: 0px; padding-bottom: 0px;">
+      <p class="login-text" style="font-size: 16px; color: #555; margin-bottom: 0px;">Email: {{ data.email }}</p>
+      
+      <div class="input-addon">
+        <mat-form-field class="form-control" style="border-style: none; height: auto;">
+          <mat-label>Password</mat-label>
+          <input matInput [type]="hidePassword ? 'password' : 'text'" placeholder="abc@!#342" [formControl]="Password" required>
+          <button mat-icon-button matSuffix (click)="togglePasswordVisibility()" [attr.aria-label]="hidePassword ? 'Show password' : 'Hide password'" [attr.aria-pressed]="!hidePassword" style="border: none;  background-color: transparent; padding-right: 15px;">
+            <mat-icon>{{ hidePassword ? 'visibility_off' : 'visibility' }}</mat-icon>
+          </button>
+          <mat-error *ngIf="Password.invalid">{{ getErrorMessage(Password) }}</mat-error>
+        </mat-form-field>
+      </div>
+      
+      <div class="input-addon">
+        <mat-form-field class="form-control" style="border-style: none; height: auto;">
+          <mat-label>Confirm Password</mat-label>
+          <input matInput [type]="hideConfirmPassword ? 'password' : 'text'" placeholder="abc@!#342" [formControl]="CoPassword" required>
+          <button mat-icon-button matSuffix (click)="toggleConfirmPasswordVisibility()" [attr.aria-label]="hideConfirmPassword ? 'Show password' : 'Hide password'" [attr.aria-pressed]="!hideConfirmPassword" style="border: none;  background-color: transparent; padding-right: 15px;">
+            <mat-icon>{{ hideConfirmPassword ? 'visibility_off' : 'visibility' }}</mat-icon>
+          </button>
+          <mat-error *ngIf="CoPassword.invalid">{{ getErrorMessage(CoPassword) }}</mat-error>
+        </mat-form-field>
+      </div>
+      
+  
+  
+  
+      <div mat-dialog-actions style="display: flex; justify-content: space-between; padding: 20px 20px;">
+        <button mat-button (click)="onNoClick()" class="btn btn-xl btn-primary" style="flex: 1; margin: 0 10px;">Cancel</button>
+        <button mat-button class="btn btn-xl btn-primary" style="flex: 1; margin: 0 10px;">Submit</button>
+      </div>
+    </div>
+    </div>
+  
+  

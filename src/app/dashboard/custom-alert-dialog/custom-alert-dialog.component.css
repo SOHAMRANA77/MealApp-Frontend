@@ -1,0 +1,12 @@
+mat-dialog-content {
+    font-size: 16px;
+  }
+  
+  mat-dialog-actions {
+    justify-content: flex-end;
+  }
+  
+  button.mat-button {
+    color: #3b5998;
+  }
+  

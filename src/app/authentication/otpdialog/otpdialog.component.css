@@ -1,0 +1,96 @@
+/* Container styles */
+.otp-container,
+.changepassword-container {
+  max-width: 400px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  overflow: hidden; /* Prevent overflow */
+}
+
+/* Heading styles */
+.login-head {
+  font-size: 24px;
+  text-align: center;
+  margin-bottom: 0;
+}
+
+/* Text styles */
+.login-text {
+  font-size: 16px;
+  color: #555;
+  margin-bottom: 0;
+}
+
+/* Input addon styles */
+.input-addon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  margin-top: 20px;
+  margin-bottom: 0;
+  width: 100%; /* Ensure input addon takes full width */
+}
+
+/* Form field styles */
+.mat-form-field {
+  border-style: none;
+  height: auto;
+  width: calc(100% - 20px); /* Adjust width to fit container with padding */
+  margin-top: 20px;
+  box-sizing: border-box; /* Include padding and border in the element's total width and height */
+}
+
+/* Dialog actions styles */
+.mat-dialog-actions {
+  display: flex;
+  justify-content: space-between;
+  padding: 20px;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+/* Button styles */
+.btn {
+  flex: 1;
+  margin: 0 10px;
+}
+
+/* Responsive styles */
+@media screen and (max-width: 767px) {
+  .otp-container,
+  .changepassword-container {
+    width: 100%;
+    padding: 0 10px; /* Add padding to prevent horizontal overflow */
+    box-sizing: border-box;
+  }
+
+  .input-addon {
+    flex-direction: column;
+    width: 100%;
+  }
+
+  .mat-form-field {
+    width: 100%;
+  }
+}
+
+@media screen and (max-width: 1024px) {
+  .otp-container,
+  .changepassword-container {
+    width: 90%;
+    padding: 0 10px; /* Add padding to prevent horizontal overflow */
+    box-sizing: border-box;
+  }
+}
+
+@media screen and (min-width: 768px) and (max-width: 1024px) {
+  .otp-container,
+  .changepassword-container {
+    width: 75%;
+    padding: 0 10px; /* Add padding to prevent horizontal overflow */
+    box-sizing: border-box;
+  }
+}

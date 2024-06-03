@@ -1,0 +1,309 @@
+.container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 80vh;
+  background-color: #f3f4f6; /* Light gray background */
+  flex-direction: column; /* Add this to stack items vertically on smaller screens */
+}
+
+.calendar, .booking {
+  width: 90%; /* Set default width for smaller screens */
+  margin-right: 0; /* Reset margin */
+  margin-bottom: 20px; /* Add spacing between elements */
+}
+
+
+
+.QRcode {
+
+  background-color: #f3f4f6;
+  height: 100px;
+  padding: 10px 20px;
+  border-radius: 4px;
+  border-style: none;
+  cursor: pointer;
+
+}
+
+.QRcode img {
+
+  height: 65px;
+
+}
+
+#mybutton {
+  position: fixed;
+  bottom: 80px;
+  right: 15px;
+  
+}
+li {
+  list-style-type:disc;
+}
+
+.booking-header {
+  display: flex;
+  align-items: center;
+  align-items: baseline;
+  justify-content: space-between; /* Space between header and button */
+  margin-bottom: 0px; /* Add spacing below the header */
+}
+
+::ng-deep .isBooked .mat-calendar-body-cell-content::after {
+  content: '';
+  display: block;
+  width: 8px;
+  height: 8px;
+  background-color: green;
+  border-radius: 50%;
+  position: absolute;
+  bottom: 4px;
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+::ng-deep .dinnerIsBooked .mat-calendar-body-cell-content::after {
+  content: '';
+  display: block;
+  width: 8px;
+  height: 8px;
+  background-color: #a709b6;
+  border-radius: 50%;
+  position: absolute;
+  bottom: 4px;
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+::ng-deep .lunchIsBooked .mat-calendar-body-cell-content::after {
+  content: '';
+  display: block;
+  width: 8px;
+  height: 8px;
+  background-color: rgb(255, 132, 0);
+  border-radius: 50%;
+  position: absolute;
+  bottom: 4px;
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+.button-container {
+  position: relative;
+  display: inline-block;
+  margin-left: auto;
+}
+
+.info-button {
+  background-color: #182c56;
+  border: none;
+  color: white;
+  padding: 10px 15px;
+  font-size: 16px;
+  border-radius: 50%;
+  cursor: pointer;
+  position: relative;
+}
+
+.tooltip {
+  display: none;
+  position: absolute;
+  top: 100%;
+  left: 50%;
+  transform: translateX(-50%);
+  background-color: #f9f9f9;
+  border: 1px solid #ddd;
+  box-shadow: 0px 0px 10px rgba(0,0,0,0.1);
+  padding: 10px;
+  border-radius: 5px;
+  z-index: 1;
+  max-width: 250px;
+}
+
+.button-container:hover .tooltip {
+  display: block;
+}
+
+.calendar-legend {
+  display: flex;
+  flex-direction: column;
+  max-width: 200px;
+  margin: 0;
+}
+
+.legend-item {
+  display: flex;
+  align-items: center;
+  margin-bottom: 10px;
+}
+
+.legend-item3 {
+  display: flex;
+  align-items: center;
+  margin-bottom: 0px;
+}
+
+.color-box {
+  width: 20px;
+  height: 20px;
+  margin-right: 10px;
+  border: 1px solid #000;
+}
+
+.color-box.lunch {
+  background-color: rgb(255, 132, 0);
+  border-color: transparent;
+  border-radius: 50%;
+}
+
+.color-box.dinner {
+  background-color: rgb(247, 0, 255);
+  border-color: transparent;
+  border-radius: 50%;
+}
+
+.color-box.both {
+  background-color: green;
+  border-color: transparent;
+  border-radius: 50%;
+}
+
+.label {
+  font-size: 16px;
+}
+
+
+
+
+
+/*mobile*/
+@media (min-width: 400px) {
+
+  .container {
+
+    height: auto;
+
+  }
+
+
+}
+
+
+
+/* Tablet Styles */
+@media (min-width: 768px) {
+  .container {
+    height: 80vh;
+    flex-direction: row; /* Restore horizontal layout */
+  }
+
+  .calendar {
+    width: 50%; /* Adjust width for tablets */
+    margin-right: 20px; /* Restore margin */
+  }
+
+  .booking {
+    width: 45%; /* Adjust width for tablets */
+  }
+}
+
+/* Desktop Styles */
+@media (min-width: 1024px) {
+  
+  
+  .calendar {
+    width: 35%; /* Original width */
+    padding-right: 50px; /* Original margin */
+  }
+
+  .booking {
+    width: 35%; /* Original width */
+  }
+}
+
+/* General Styles */
+.booking {
+  padding: 20px;
+  background-color: #ffffff; /* White background */
+  border-radius: 8px;
+  box-shadow: 0px 0px 20px rgba(0, 0, 0, 0.1); /* Soft shadow */
+}
+
+h2 {
+  font-size: 24px;
+  margin-bottom: 20px;
+}
+
+mat-radio-button {
+  margin-right: 10px;
+}
+
+button {
+  margin-top: 10px;
+}
+
+.menu {
+  margin-top: 20px;
+}
+
+.menu h3 {
+  font-size: 20px;
+}
+
+.menu-box {
+  display: flex;
+  flex-direction: column; /* Stack vertically by default */
+}
+
+.menu-box .menu-list {
+  flex: 1;
+  font-weight: 400;
+  font-size:medium;
+  padding: 30px;
+  border-radius: 8px;
+  color: #ffffff; /* White text color */
+  margin-bottom: 10px; /* Add spacing between items */
+}
+
+.menu-box .menu-list + .menu-list {
+  margin-left: 0; /* Reset margin */
+}
+
+.menu-back{
+  background-image: url(../../../assets/icons/menuimg.jpeg);
+  background-position: center;
+  background-size: cover;
+  border-radius: 10px;
+}
+
+.menu-box {
+  background-color: #182c56d6;
+  border-radius: 10px;
+  
+  
+}
+
+/* Tablet and Desktop Styles */
+@media (min-width: 768px) {
+  .menu-box {
+    flex-direction: row; /* Arrange items horizontally on larger screens */
+  }
+
+  .menu-box .menu-list {
+    margin-bottom: 0; /* Remove bottom margin */
+  }
+
+  .menu-box .menu-list + .menu-list {
+    margin-left: 10px; /* Restore margin */
+  }
+}
+
+ul {
+  list-style-type: none;
+  padding: 0;
+}
+
+ul li {
+  margin: 5px 0;
+}

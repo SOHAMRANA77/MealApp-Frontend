@@ -1,0 +1,31 @@
+<section class="login-content">
+    <div class="login-content-lt"></div>
+    <div class="login-content-rt">
+      <div class="login-box">
+      <form class="login-form" action="#">
+        <div class="logo-wrapper">
+          <img src="../../../assets/images/logo.svg" alt="Rishabh Software">
+          <span>Meal Facility</span>
+        </div>
+        <h3 class="login-head">Forgot Password?</h3>
+        <p class="login-text">Enter the email below to continue.</p>
+        <div class="input-addon">
+          <mat-form-field class="form-control" style="border-style: none; height: auto;">
+            <mat-label>Email Address</mat-label>
+            <input matInput placeholder="pat@example.com" [formControl]="Email" required>
+            <mat-error *ngIf="Email.invalid">{{ getErrorMessage(Email) }}</mat-error>
+          </mat-form-field>
+        </div>
+        
+
+      
+        <div class="form-group btn-container" style="margin-left: 22px; margin-right: 10px;">
+          <button class="btn btn-xl btn-primary"  (click)="onSubmit()" [disabled]="Email.invalid">Submit</button>
+        </div>
+      </form>
+    </div>
+    </div>
+    
+    
+    
+  </section>

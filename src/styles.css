@@ -1,0 +1,28 @@
+body{
+  margin: 0;
+  padding: 0;
+  /* overflow: hidden; */
+  overflow: auto;
+}
+
+
+/* * {
+  scrollbar-width: none; 
+  -ms-overflow-style: none;  
+}
+
+*::-webkit-scrollbar { 
+  display: none; 
+} */
+
+/* @media (min-width:300px){
+  body{
+    overflow: auto;
+  }
+}
+
+@media (min-width:1000px){
+  body{
+    overflow: hidden;
+  }
+} */

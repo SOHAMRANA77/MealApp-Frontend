@@ -1,0 +1,72 @@
+<div class="container" appOverflowHidden>
+  <div class="calendar">
+    <mat-calendar [dateClass]="dateClass" [startAt]="startDate" [maxDate]="maxDate" [dateFilter]="myDateFilter" [(selected)]="selectedDate" (selectedChange)="onDateChange($event)" ></mat-calendar>
+  </div>
+  <div class="booking">
+    <div class="booking-header">
+      <h2>Booking</h2>
+      <div class="button-container" (mouseover)="showTooltip = true" (mouseleave)="showTooltip = false">
+        <button class="info-button">?</button>
+        <div class="tooltip" *ngIf="showTooltip">
+          <div class="calendar-legend">
+            <div class="legend-item">
+              <span class="color-box lunch"></span>
+              <span class="label">Lunch</span>
+            </div>
+            <div class="legend-item">
+              <span class="color-box dinner"></span>
+              <span class="label">Dinner</span>
+            </div>
+            <div class="legend-item legend-item3">
+              <span class="color-box both"></span>
+              <span class="label">Both</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <mat-radio-group [(ngModel)]="mealType">
+      <mat-radio-button value="lunch">Lunch</mat-radio-button>
+      <mat-radio-button value="dinner">Dinner</mat-radio-button>
+    </mat-radio-group>
+    <div *ngIf="selectedDate && !isWeekend(selectedDate)">
+      <button mat-raised-button color="primary" (click)="bookMeal()" [disabled]="!canBook()">Book</button>
+      <button mat-raised-button color="warn" (click)="cancelBooking()" *ngIf="hasBooking(selectedDate, mealType)" [disabled]="!canCancel()">Cancel Booking</button>
+    </div>
+    <div class="menu" *ngIf="menuForDay">
+
+      <div class="menu-back">
+
+      <div class="menu-box">
+        
+        <div class="menu-list">
+          <h3>Lunch</h3>
+          <ul>
+            <li *ngFor="let item of menuForDay.LUNCH">{{ item }}</li>
+          </ul>
+        </div>
+        <div class="menu-list">
+          <h3>Dinner</h3>
+          <ul>
+            <li *ngFor="let item of menuForDay.DINNER">{{ item }}</li>
+          </ul>
+        </div>
+      </div>
+    
+    </div>
+
+    </div>
+    <div *ngIf="!menuForDay && selectedDate">No menu available</div>
+    <div *ngIf="isWeekend(selectedDate)">Booking is not allowed on weekends</div>
+    
+    <!-- Bulk Booking Button -->
+    <button mat-raised-button color="accent" (click)="openBulkBookingDialog()">Bulk Booking</button>
+
+    <div id="mybutton">
+      <button class="QRcode" *ngIf="shouldShowButton()">
+        <img src="../../assets/icons/qr-code.png" alt="QRcode">
+      </button>
+    </div>
+  </div>
+
+</div>

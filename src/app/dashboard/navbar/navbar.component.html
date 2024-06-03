@@ -1,0 +1,85 @@
+<div class="container">
+  <header class="header">
+    <a href="dashboard/" class="homepage" style="text-decoration: none; color: aliceblue;">
+      <div class="header-left" >
+        <img src="assets/icons/logo-white.svg" alt="Logo" class="logo">
+        <h1 class="title">Meal Facility</h1>
+      </div>
+    </a>
+    <div class="header-right">
+      <div class="greeting title">
+        <p>Hey, {{ username }}</p>
+      </div>
+      <div class="dropdown">
+        <button class="notification-btn" aria-label="Notifications" (click)="toggleNotificationDropdown()">
+          <div matBadge="{{ notifications.length }}" matBadgeColor="accent">
+            <img src="assets/icons/notification.png" alt="Notifications">
+          </div>
+        </button>
+        <div class="dropdown-content notification-dropdown-content" [class.show]="notificationDropdownOpen && notifications.length > 0">
+          <ng-container *ngIf="notifications.length; else noNotifications">
+            <div *ngFor="let notification of notifications; let i = index">
+              <a href="#" (click)="removeNotification($event, notification.id, notification.message)" 
+                 [ngClass]="{'success-message': isSuccess(notification), 'failure-message': isFailure(notification)}">
+                {{ notification.message }}
+              </a>
+            </div>
+          </ng-container>
+          <ng-template #noNotifications>
+            <p>No notifications</p>
+          </ng-template>
+        </div>
+      </div>
+      <div class="dropdown">
+        <button class="profile-btn" aria-label="Profile" (click)="toggleDropdown()">
+          <img src="assets/icons/menu.png" alt="Profile">
+        </button>
+        <div class="dropdown-content" [class.show]="dropdownOpen">
+          <a href="#" (click)="openChangePasswordDialog($event)">Change Password</a>
+          <a href="dashboard/aboutus">About Us</a>
+          <a href="dashboard/terms&condition">terms&condition</a>
+          <a href="dashboard/privacypolicy">Privacy Policy</a>
+          <a href="#" (click)="Logout()">Logout</a>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <div class="modal" *ngIf="isChangePasswordDialogOpen">
+    <div class="modal-content">
+      <span class="close" (click)="closeChangePasswordDialog()">&times;</span>
+      <h2>Change Password</h2>
+      <form (ngSubmit)="handleChangePassword()">
+        <div class="form-group">
+          <mat-form-field>
+            <mat-label>Old Password</mat-label>
+            <input matInput [type]="hideOldPassword ? 'password' : 'text'" [(ngModel)]="passwordForm.oldPassword" name="oldPassword" required>
+            <button mat-icon-button matSuffix (click)="hideOldPassword = !hideOldPassword" [attr.aria-label]="'Hide password'" [attr.aria-pressed]="hideOldPassword">
+              <mat-icon>{{hideOldPassword ? 'visibility_off' : 'visibility'}}</mat-icon>
+            </button>
+          </mat-form-field>
+        </div>
+        <div class="form-group">
+          <mat-form-field>
+            <mat-label>New Password</mat-label>
+            <input matInput [type]="hideNewPassword ? 'password' : 'text'" [(ngModel)]="passwordForm.newPassword" name="newPassword" required>
+            <button mat-icon-button matSuffix (click)="hideNewPassword = !hideNewPassword" [attr.aria-label]="'Hide password'" [attr.aria-pressed]="hideNewPassword">
+              <mat-icon>{{hideNewPassword ? 'visibility_off' : 'visibility'}}</mat-icon>
+            </button>
+          </mat-form-field>
+        </div>
+        <div class="form-group">
+          <mat-form-field>
+            <mat-label>Confirm New Password</mat-label>
+            <input matInput [type]="hideConfirmNewPassword ? 'password' : 'text'" [(ngModel)]="passwordForm.confirmNewPassword" name="confirmNewPassword" required>
+            <button mat-icon-button matSuffix (click)="hideConfirmNewPassword = !hideConfirmNewPassword" [attr.aria-label]="'Hide password'" [attr.aria-pressed]="hideConfirmNewPassword">
+              <mat-icon>{{hideConfirmNewPassword ? 'visibility_off' : 'visibility'}}</mat-icon>
+            </button>
+          </mat-form-field>
+        </div>
+        <div *ngIf="errorMessage" class="error-message">{{ errorMessage }}</div>
+        <button type="submit" class="submit-btn" (click)="ChangePassword()">Submit</button>
+      </form>
+    </div>
+  </div>
+</div>
