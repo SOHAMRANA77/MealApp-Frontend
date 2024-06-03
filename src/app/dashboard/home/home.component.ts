@@ -183,6 +183,7 @@ getBookingStatus(date: Date) {
  
 
   bookMeal() {
+    this.refreshCalendarView();
     if (this.selectedDate && this.mealType) {
       // const formattedDate = this.formatDateToIST(this.selectedDate);
       // if (!this.bookings[formattedDate]) {
@@ -193,6 +194,7 @@ getBookingStatus(date: Date) {
       console.log(this.mealService.bulkBooking(this.token.decodeToken().id,this.mealType,this.selectedDate))
       this.refreshCalendarView(); // Refresh calendar view
     }
+    this.refreshCalendarView();
     this.refreshCalendarView();
     console.log(this.bookings)
   }
