@@ -4,6 +4,7 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { FormControl, Validators } from '@angular/forms';
 import { ApiService } from '../Services/API/api.service';
 import { AuthService } from '../Services/auth.service';
+import { DashboardComponent } from 'src/app/dashboard/dashboard.component';
 
 @Component({
   selector: 'app-login-page',
@@ -23,7 +24,11 @@ export class LoginPageComponent {
     private StorageService: AuthService,
     private service: ApiService,
     private _snackBar: MatSnackBar
-  ) {}
+  ) {
+    if(this.StorageService.isAuthenticated()){
+      router.navigateByUrl('/dashboard');
+    }
+  }
 
   togglePasswordVisibility(): void {
     this.hidePassword = !this.hidePassword;

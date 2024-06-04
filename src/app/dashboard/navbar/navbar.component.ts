@@ -66,7 +66,7 @@ export class NavbarComponent {
       (error) => {
         console.error('Error getting notifications', error);
       }
-    );
+    )
   }
 
   GetName() {

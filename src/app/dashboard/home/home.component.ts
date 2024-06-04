@@ -51,6 +51,10 @@ export class HomeComponent implements OnInit{
     console.log("aaaa"+this.bookings)
   }
 
+  NotificationRef(){
+    this.mealService.getNotifications(this.token.decodeToken().id);
+  }
+
   ngOnInit() {
     this.fetchMenu();
     this.selectedDate = this.today; // Set today's date as selected by default
@@ -184,6 +188,7 @@ getBookingStatus(date: Date) {
         }
       );
     }
+    this.NotificationRef();
     
   }
   
@@ -213,14 +218,15 @@ getBookingStatus(date: Date) {
           // this.responseMessage = 'Coupon deleted successfully';
           // this.refreshCalendarView();
           console.log(response);
-          // this.refreshCalendarView();
+          this.getBookedDate();
+          this.refreshCalendarView();
         },
         (error) => {
           // this.responseMessage = 'Error deleting coupon';
           console.error('Error deleting coupon', error);
         }
       );
-      this.refreshCalendarView();
+      // this.refreshCalendarView();
     }
   
 
@@ -233,7 +239,7 @@ getBookingStatus(date: Date) {
     const today = new Date();
     const LUNCHCutoff = new Date(date);
     LUNCHCutoff.setHours(9, 0, 0, 0);
-    console.log("idhiofjfjijijsoijvifxihovji"+LUNCHCutoff.setHours(9, 0, 0, 0));
+    // console.log("idhiofjfjijijsoijvifxihovji"+LUNCHCutoff.setHours(9, 0, 0, 0));
     return date.toDateString() === today.toDateString() && today > LUNCHCutoff;
   }
 
