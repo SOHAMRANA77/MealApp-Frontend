@@ -26,12 +26,12 @@
       </div>
     </div>
     <mat-radio-group [(ngModel)]="mealType">
-      <mat-radio-button value="lunch">Lunch</mat-radio-button>
-      <mat-radio-button value="dinner">Dinner</mat-radio-button>
+      <mat-radio-button value="LUNCH">Lunch</mat-radio-button>
+      <mat-radio-button value="DINNER">Dinner</mat-radio-button>
     </mat-radio-group>
     <div *ngIf="selectedDate && !isWeekend(selectedDate)">
-      <button mat-raised-button color="primary" (click)="bookMeal()" [disabled]="!canBook()">Book</button>
-      <button mat-raised-button color="warn" (click)="cancelBooking()" *ngIf="hasBooking(selectedDate, mealType)" [disabled]="!canCancel()">Cancel Booking</button>
+      <button mat-raised-button color="primary" (click)="bookMeal(); refreshCalendarView()"  [disabled]="!canBook()" >Book</button>
+      <button mat-raised-button color="warn" (click)="cancelBooking(); refreshCalendarView()" *ngIf="hasBooking(selectedDate, mealType)" [disabled]="!canCancel()" >Cancel Booking</button>
     </div>
     <div class="menu" *ngIf="menuForDay">
 

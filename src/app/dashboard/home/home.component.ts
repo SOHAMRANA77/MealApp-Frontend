@@ -46,15 +46,15 @@ export class HomeComponent implements OnInit{
     this.today = this.resetTimeToIST(new Date());
     this.startDate = this.resetTimeToIST(new Date());
     this.maxDate = this.resetTimeToIST(new Date(this.today.getFullYear(), this.today.getMonth() + 3, this.today.getDate()));
-    this.refreshCalendarView();
     this.getBookedDate()
+    this.refreshCalendarView();
     console.log("aaaa"+this.bookings)
   }
 
   ngOnInit() {
     this.fetchMenu();
     this.selectedDate = this.today; // Set today's date as selected by default
-    this.refreshCalendarView(); // Refresh calendar view
+    // this.refreshCalendarView(); // Refresh calendar view
   }
 
   fetchMenu() {
@@ -110,25 +110,30 @@ getBookingStatus(date: Date) {
   canBook(): boolean {
     if (!this.selectedDate || !this.mealType || this.isPastDate(this.selectedDate) || this.isWeekend(this.selectedDate)) { return false;}
     if ((this.mealType === 'LUNCH' && this.isPastLUNCHTime(this.selectedDate)) || (this.mealType === 'DINNER' && this.isPastDINNERTime(this.selectedDate))) return false;
+    console.log("canBook()",this.selectedDate, this.mealType);
+    // this.refreshCalendarView();
     return !this.hasBooking(this.selectedDate, this.mealType);
   }
 
   canCancel(): boolean {
     if (!this.selectedDate || this.isPastDate(this.selectedDate) || this.isWeekend(this.selectedDate)) return false;
     if ((this.mealType === 'LUNCH' && this.isPastLUNCHTime(this.selectedDate)) || (this.mealType === 'DINNER' && this.isPastDINNERTime(this.selectedDate))) return false;
+    console.log("canCancel()",this.selectedDate, this.mealType);
+    // this.refreshCalendarView();
     return this.hasBooking(this.selectedDate, this.mealType);
   }
 
   hasBooking(date: Date | null, mealType: 'LUNCH' | 'DINNER' | null): boolean {
     if (!date || !mealType) return false;
+    // console.log("uysytfiugslfiufhsfpifsnhydpiofdm,",date,mealType);
     const formattedDate = this.formatDateToIST(date);
-    console.log("hasBooking",this.bookings[formattedDate])
+    // console.log("hasBooking",this.bookings[formattedDate])
     return !!this.bookings[formattedDate]?.[mealType];
   }
 
   onDateChange(date: Date | null) {
     this.selectedDate = date;
-    this.refreshCalendarView();
+    // this.refreshCalendarView();
   }
 
   getBookedDate() {
@@ -146,11 +151,11 @@ getBookingStatus(date: Date) {
           } else {
             console.warn('Invalid booking entry:', booking);
           }
+          this.refreshCalendarView();
           return acc;
         }, {});
         console.log('Bookings:', this.bookings);
         console.log('Selected Date:', this.selectedDate);
-        this.refreshCalendarView();
       },
       error => {
         console.error('Error fetching bookings:', error);
@@ -179,6 +184,7 @@ getBookingStatus(date: Date) {
         }
       );
     }
+    
   }
   
   // cancelBooking() {
@@ -205,6 +211,7 @@ getBookingStatus(date: Date) {
       this.mealService.deleteCoupon(id, date, menuType).subscribe(
         (response) => {
           // this.responseMessage = 'Coupon deleted successfully';
+          // this.refreshCalendarView();
           console.log(response);
         },
         (error) => {
@@ -212,7 +219,6 @@ getBookingStatus(date: Date) {
           console.error('Error deleting coupon', error);
         }
       );
-      this.refreshCalendarView();``
     }
   
 
@@ -289,7 +295,8 @@ getBookingStatus(date: Date) {
         this.bookBulkMeal();
       }
     });
-    this.refreshCalendarView();
+    // this.getBookedDate();
+    // this.refreshCalendarView();
   }
 
   bookBulkMeal() {
@@ -301,12 +308,12 @@ getBookingStatus(date: Date) {
       console.log("jdfnjfio: "+this.bookings)
       console.log(this.mealService.bulkBooking(this.token.decodeToken().id,this.bulkMealType,this.bulkStartDate,this.bulkEndDate))
       this.getBookedDate()
-      this.refreshCalendarView();
+      // this.refreshCalendarView();
     }
   }
 
   refreshCalendarView() {
-    console.log('Bookings:', this.bookings);
+    // console.log('Bookings:', this.bookings);
     if (this.calendar) { // Check if calendar is defined
       console.log('Refreshing calendar view...');
       setTimeout(() => {
