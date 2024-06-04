@@ -213,12 +213,14 @@ getBookingStatus(date: Date) {
           // this.responseMessage = 'Coupon deleted successfully';
           // this.refreshCalendarView();
           console.log(response);
+          // this.refreshCalendarView();
         },
         (error) => {
           // this.responseMessage = 'Error deleting coupon';
           console.error('Error deleting coupon', error);
         }
       );
+      this.refreshCalendarView();
     }
   
 
