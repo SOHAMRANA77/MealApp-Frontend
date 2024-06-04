@@ -2,6 +2,7 @@ import { Component, Inject } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { ApiService } from '../Services/API/api.service';
 import { AuthService } from 'src/app/authentication/Services/auth.service';
+import { HttpErrorResponse } from '@angular/common/http';
 
 @Component({
   selector: 'app-bulk-booking',
@@ -50,10 +51,34 @@ export class BulkBookingComponent {
 
   bookBulkMeal() {
     if (this.validateDateRange()) {
+      // Close dialog
       this.dialogRef.close({ bulkMealType: this.bulkMealType, bulkStartDate: this.bulkStartDate, bulkEndDate: this.bulkEndDate });
-      console.log(this.mealService.bulkBooking(this.token.decodeToken().id,this.bulkMealType as string,this.bulkStartDate as Date, this.bulkEndDate as Date))
+  
+      // Check if all properties are defined
+      if (this.bulkMealType && this.bulkStartDate && this.bulkEndDate) { 
+        // Call bulkBooking with start and end dates
+        this.mealService.bulkBooking(
+          this.token.decodeToken().id, 
+          this.bulkMealType.toUpperCase() as 'LUNCH' | 'DINNER', 
+          this.bulkStartDate, 
+          this.bulkEndDate
+        ).subscribe(
+          () => {
+            // Handle successful booking
+            console.log('Bulk meal booked successfully');
+            // You may want to handle any UI updates here
+          },
+          (error: HttpErrorResponse) => {
+            // Handle error
+            console.error('Error booking bulk meal:', error.message);
+          }
+        );
+      } else {
+        console.error('bulkMealType, bulkStartDate, or bulkEndDate is null or undefined.');
+      }
     }
   }
+  
 
   dateFilter = (d: Date | null): boolean => {
     if (!d) {

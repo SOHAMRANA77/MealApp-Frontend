@@ -12,18 +12,25 @@ import { AuthService } from '../Services/auth.service';
 })
 export class LoginPageComponent {
   Email = new FormControl(null, [Validators.required, Validators.email]);
-  Password = new FormControl(null, Validators.required);
+  Password = new FormControl("", [
+    Validators.required,
+    Validators.pattern(/^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*\W).{8,}$/)
+  ]);
   hidePassword: boolean = true;
+
+  constructor(
+    private router: Router,
+    private StorageService: AuthService,
+    private service: ApiService,
+    private _snackBar: MatSnackBar
+  ) {}
 
   togglePasswordVisibility(): void {
     this.hidePassword = !this.hidePassword;
-    this.Password.updateValueAndValidity();
   }
 
-  constructor(private router : Router,private StorageService : AuthService,private service : ApiService ,private _snackBar: MatSnackBar){}
-
-  openSnackBar(msg :string) {
-    this._snackBar.open(msg , 'Close', {
+  openSnackBar(msg: string) {
+    this._snackBar.open(msg, 'Close', {
       horizontalPosition: "center",
       verticalPosition: "top",
       duration: 3000
@@ -34,31 +41,33 @@ export class LoginPageComponent {
     if (control.hasError('required')) {
       return 'You must enter a value';
     }
-
-    return control.hasError('email') ? 'Not a valid email' : '';
+    if (control === this.Email && control.hasError('email')) {
+      return 'Not a valid email';
+    }
+    if (control === this.Password && control.hasError('pattern')) {
+      return 'Invalid password';
+    }
+    return '';
   }
 
   login() {
-    const email = this.Email.value;
-    const password = this.Password.value;
-    if (email && password) {
-      this.service.loginApi(email, password).subscribe({
-        next: (response) => {
-          console.log(response.jwt);
-          this.StorageService.login(response.jwt);
-          
-          this.openSnackBar('Login successful');
-          this.router.navigateByUrl('/dashboard');
-        },
-        error: (error) => {
-          console.error('Login failed', error);
-          this.openSnackBar('Login failed: ' + error.message);
-        }
-      });
-    } else {
-      this.openSnackBar('Please fill in all required fields');
-    }
+    // if (this.Email.invalid || this.Password.invalid) {
+    //   this.openSnackBar('Please fill in all required fields correctly');
+    //   return;
+    // }
+    
+    const email = this.Email.value || '';
+    const password = this.Password.value || '';
+
+    this.service.loginApi(email, password).subscribe({
+      next: (response) => {
+        this.StorageService.login(response.jwt);
+        this.openSnackBar('Login successful');
+        this.router.navigateByUrl('/dashboard');
+      },
+      error: (error) => {
+        this.openSnackBar('Login failed: ' + error.message);
+      }
+    });
   }
-
-
 }

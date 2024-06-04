@@ -1,41 +1,41 @@
 body {
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    margin: 0;
-    padding: 0;
-    background-color: #f8f9fa; /* Soft gray background */
-    color: #333; /* Dark gray text color */
-}
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        margin: 0;
+        padding: 0;
+        background-color: #f8f9fa; /* Soft gray background */
+        color: #333; /* Dark gray text color */
+    }
 
-.container {
-    max-width: 900px;
-    margin: 30px auto 20px; /* Increased margin-top for more space */
-    padding: 30px;
-    background-color: #fff;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Subtle shadow */
-    border-radius: 8px;
-}
+    .container {
+        max-width: 900px;
+        margin: 30px auto 20px; /* Increased margin-top for more space */
+        padding: 30px;
+        background-color: #fff;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Subtle shadow */
+        border-radius: 8px;
+    }
 
-h1, h2 {
-    color: #182c56; /* Dark blue headings */
-}
+    h1, h2 {
+        color: #182c56; /* Dark blue headings */
+    }
 
-p {
-    line-height: 1.8; /* Increased line height for readability */
-    font-size: 16px; /* Larger font size */
-}
+    p {
+        line-height: 1.8; /* Increased line height for readability */
+        font-size: 16px; /* Larger font size */
+    }
 
-ul {
-    list-style-type: disc;
-    padding-left: 20px;
-}
+    ul {
+        list-style-type: disc;
+        padding-left: 20px;
+    }
 
-a {
-    color: #e23e3f; /* Red link color */
-    text-decoration: underline; /* Underline links */
-}
+    a {
+        color: #e23e3f; /* Red link color */
+        text-decoration: underline; /* Underline links */
+    }
 
-h2 {
-    border-bottom: 2px solid #182c56; /* Blue border bottom for headings */
-    padding-bottom: 8px; /* Increased padding */
-    margin-bottom: 20px; /* Increased margin bottom */
-}
+    h2 {
+        border-bottom: 2px solid #182c56; /* Blue border bottom for headings */
+        padding-bottom: 8px; /* Increased padding */
+        margin-bottom: 20px; /* Increased margin bottom */
+    }

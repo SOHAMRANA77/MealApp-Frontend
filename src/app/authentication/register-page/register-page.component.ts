@@ -22,28 +22,35 @@ export class RegisterPageComponent {
   userRoles: string[] = ['EMPLOYEE', 'GUEST'];
 
   Email = new FormControl('', [Validators.required, Validators.email]);
-  Name = new FormControl('', Validators.required);
-  Password = new FormControl('', Validators.required);
+  Name = new FormControl('', [
+    Validators.required,
+    Validators.pattern(/^[a-zA-Z]+ [a-zA-Z]+$/)
+  ]);
+  Password = new FormControl('', [
+    Validators.required,
+    Validators.pattern(/^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*\W).{8,}$/)
+  ]);
   CoPassword = new FormControl('', Validators.required);
   Department = new FormControl('', Validators.required);
   UserRole = new FormControl('', Validators.required);
-  PhoneNo = new FormControl('', [Validators.required, Validators.pattern('[0-9]{10}')]);
+  PhoneNo = new FormControl('', [
+    Validators.required,
+    Validators.pattern(/^[0-9]{10}$/)
+  ]);
 
   constructor(
-    private router: Router, 
+    private router: Router,
     private _snackBar: MatSnackBar,
     private service: ApiService
   ) {
     this.service.ListDepart().subscribe((Response: Department[]) => {
       console.log(Response);
   
-      // Extract all department names and locations and format them
       const departmentOptions = Response.map((department: Department) => {
         return { name: department.name, location: department.location };
       });
       console.log("Department Options:", departmentOptions);
   
-      // Update departmentOptions array
       this.departmentOptions = departmentOptions;
       console.log("Updated Department Options:", this.departmentOptions);
     });
@@ -57,12 +64,12 @@ export class RegisterPageComponent {
     this.hidePassword = !this.hidePassword;
     this.Password.updateValueAndValidity();
   }
-  
+
   toggleConfirmPasswordVisibility(): void {
     this.hideConfirmPassword = !this.hideConfirmPassword;
     this.CoPassword.updateValueAndValidity();
   }
-  
+
   openSnackBar(msg: string) {
     this._snackBar.open(msg, 'Close', {
       horizontalPosition: "center",
@@ -81,8 +88,14 @@ export class RegisterPageComponent {
     if (control.hasError('email')) {
       return 'Not a valid email';
     }
-    if (control.hasError('pattern')) {
+    if (control === this.PhoneNo && control.hasError('pattern')) {
       return 'Phone number must be 10 digits';
+    }
+    if (control === this.Name && control.hasError('pattern')) {
+      return 'Name must contain only letters and spaces';
+    }
+    if (control === this.Password && control.hasError('pattern')) {
+      return 'Password must contain at least 8 characters, including uppercase, lowercase, number, and special character';
     }
     return '';
   }

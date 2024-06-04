@@ -1,5 +1,5 @@
-<div class="container" appOverflowHidden>
-  <div class="calendar">
+<div class="container">
+  <div class="calendar ">
     <mat-calendar [dateClass]="dateClass" [startAt]="startDate" [maxDate]="maxDate" [dateFilter]="myDateFilter" [(selected)]="selectedDate" (selectedChange)="onDateChange($event)" ></mat-calendar>
   </div>
   <div class="booking">
@@ -24,7 +24,7 @@
           </div>
         </div>
       </div>
-    </div>
+    </div>
     <mat-radio-group [(ngModel)]="mealType">
       <mat-radio-button value="lunch">Lunch</mat-radio-button>
       <mat-radio-button value="dinner">Dinner</mat-radio-button>

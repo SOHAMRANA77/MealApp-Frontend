@@ -1,8 +1,9 @@
-import { HttpClient,HttpHeaders, HttpParams } from '@angular/common/http';
+import { HttpClient,HttpErrorResponse,HttpHeaders, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { environment } from '../../../environments/environment';
-import { Observable } from 'rxjs';
-import { map } from 'rxjs/operators';
+import { Observable, throwError } from 'rxjs';
+import { catchError, map } from 'rxjs/operators';
+import { AuthService } from 'src/app/authentication/Services/auth.service';
 
 interface BookingRequest {
   employeeId: number;
@@ -53,6 +54,14 @@ interface LogResponse {
   success: boolean;
 }
 
+export interface Booking {
+  id: number;
+  userId: number;
+  bookingDate: string;
+  mealType: 'LUNCH' | 'DINNER';
+  couponCode: string;
+  status: string;
+}
 
 
 
@@ -78,7 +87,7 @@ interface Coupon {
 })
 export class ApiService {
 
-  constructor( private http: HttpClient) {}
+  constructor( private http: HttpClient, private token : AuthService) {}
 
   getMeals(): Observable<{ [key: string]: { LUNCH: string[], DINNER: string[] } }> {
     return this.http.get<MealApiResponse[]>(environment.mainURL+"/allMenu").pipe(
@@ -114,11 +123,9 @@ export class ApiService {
       bookingType: bookingType.toUpperCase()
     };
 
-    return this.http.post<[]>(`${environment.mainURL}/addBooking`, formattedData, { headers: headers }).subscribe({
-      next: (response) => {
-        console.log(response);
-    }})
+    return this.http.post<[]>(`${environment.mainURL}/addBooking`, formattedData, { headers: headers }).pipe(catchError(this.handleError) )
   }
+
 
   private formatDate(date: Date): string {
     const year = date.getFullYear();
@@ -146,6 +153,19 @@ export class ApiService {
       })      
     );
   }
+
+  getBookings(): Observable<Booking[]> {
+    // const url = ${environment.mainURL};
+    return this.http.get<Booking[]>(`${environment.mainURL}/getCouponByID?emp_id=${this.token.decodeToken().id}`)
+      .pipe(
+        catchError(this.handleError)
+      );
+  }
+
+private handleError(error: HttpErrorResponse): Observable<any> {
+  console.error('An error occurred:', error.error.message || error.statusText);
+  return throwError('Something bad happened; please try again later.');
+  }
   
 
   deleteCoupon(id: number, date: Date, menuType: string): Observable<any> {
@@ -161,6 +181,14 @@ export class ApiService {
 
     return this.http.put<any>(`${environment.mainURL}/DeleteCoupon`, formattedData, { headers });
   }
+
+//   deleteBooking(date: string, mealType: 'LUNCH' | 'DINNER'): Observable<void> {
+//     const url = ${this.apiUrl}/${this.userId}/${date}/${mealType};
+//     return this.http.delete<void>(url)
+//       .pipe(
+//         catchError(this.handleError) // Use the error handling function here
+//       );
+//   }
   // deleteCoupon() {
   //   const id = 2;
   //   const date = new Date('2024-08-12');
