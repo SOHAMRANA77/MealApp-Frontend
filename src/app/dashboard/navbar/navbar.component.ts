@@ -56,9 +56,9 @@ export class NavbarComponent {
     this.GetName();
   }
   getNotifications() {
-    const id = this.token.decodeToken().id;
+    this.bookingService.getNotifications(this.token.decodeToken().id);
 
-    this.bookingService.getNotifications(id).subscribe(
+    this.bookingService.notifications$.subscribe(
       (response: NotificationResponse[]) => {
         this.notifications = this.transformNotifications(response);
         console.log(this.notifications);
@@ -251,4 +251,9 @@ export class NavbarComponent {
       }
     );
   }
+
+  removeAllNotifications(event: Event) {
+    event.preventDefault();
+    this.notifications = [];
+  }
 }

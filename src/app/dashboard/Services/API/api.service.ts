@@ -1,7 +1,7 @@
 import { HttpClient,HttpErrorResponse,HttpHeaders, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { environment } from '../../../environments/environment';
-import { Observable, throwError } from 'rxjs';
+import { BehaviorSubject, Observable, throwError } from 'rxjs';
 import { catchError, map } from 'rxjs/operators';
 import { AuthService } from 'src/app/authentication/Services/auth.service';
 
@@ -220,9 +220,18 @@ private handleError(error: HttpErrorResponse): Observable<any> {
     return this.http.post<ChangePasswordResponse>(`${environment.mainURL}/changePassword`, data);
   }
 
-  getNotifications(id: number): Observable<NotificationResponse[]> {
+  // getNotifications1(id: number): Observable<NotificationResponse[]> {
+  //   const params = new HttpParams().set('id', id.toString());
+  //   return this.http.get<NotificationResponse[]>(`${environment.mainURL}/Notification`, { params });
+  // }
+  private notificationsSubject: BehaviorSubject<NotificationResponse[]> = new BehaviorSubject<NotificationResponse[]>([]);
+  public notifications$: Observable<NotificationResponse[]> = this.notificationsSubject.asObservable();
+
+  getNotifications(id: number): void {
     const params = new HttpParams().set('id', id.toString());
-    return this.http.get<NotificationResponse[]>(`${environment.mainURL}/Notification`, { params });
+    this.http.get<NotificationResponse[]>(`${environment.mainURL}/Notification`, { params }).subscribe(notifications => {
+      this.notificationsSubject.next(notifications);
+    });
   }
 
   deleteNotification(request: DeleteNotificationRequest): Observable<LogResponse> {

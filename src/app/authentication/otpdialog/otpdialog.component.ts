@@ -3,6 +3,7 @@ import { FormControl, Validators } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { ApiService } from '../Services/API/api.service';
 import { Router } from '@angular/router';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-otpdialog',
@@ -21,8 +22,16 @@ export class OTPdialogComponent {
 
   constructor(
     public dialogRef: MatDialogRef<OTPdialogComponent>,
-    @Inject(MAT_DIALOG_DATA) public data: any,private api : ApiService,private router: Router
-  ) {}
+    @Inject(MAT_DIALOG_DATA) public data: any,private api : ApiService,private router: Router,private _snackBar: MatSnackBar
+  ) {this.startCountdown(3*60);}
+
+  openSnackBar(msg: string) {
+    this._snackBar.open(msg, 'Close', {
+      horizontalPosition: "center",
+      verticalPosition: "top",
+      duration: 3000
+    });
+  }
 
   onNoClick(): void {
     this.dialogRef.close();
@@ -39,7 +48,7 @@ export class OTPdialogComponent {
   }
   getErrorMessage(control: FormControl) {
     if (!control.touched || !control.dirty) {
-      return '';
+      return null;
     }
     if (control.hasError('required')) {
       return 'You must enter a value';
@@ -100,9 +109,15 @@ export class OTPdialogComponent {
       const pass = this.Password.value as string;
       this.api.changePass(this.data.email, pass).subscribe((data)=>{
         // if(data.status == true){}
+        this.openSnackBar("Change Password Successfully");
         this.router.navigate(['/auth/login']);
       })
     }
+  }
+  onSend(){
+    this.api.SendOtp(this.data.email).subscribe((data) => {
+      this.openSnackBar("OTP Sent");
+    })
   }
   
 

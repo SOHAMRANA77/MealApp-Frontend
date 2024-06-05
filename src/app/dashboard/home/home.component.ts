@@ -7,6 +7,7 @@ import { toZonedTime, formatInTimeZone } from 'date-fns-tz';
 import { ApiService ,Booking  } from '../Services/API/api.service';
 import { MatCalendar } from '@angular/material/datepicker';
 import { HttpErrorResponse } from '@angular/common/http';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 
 
@@ -42,23 +43,25 @@ export class HomeComponent implements OnInit{
   bulkStartDate: Date | null = null;
   bulkEndDate: Date | null = null;
 
-  constructor(public dialog: MatDialog, private mealService: ApiService, private token: AuthService, private cdr: ChangeDetectorRef) {
+  constructor(public dialog: MatDialog, private mealService: ApiService, private token: AuthService, private cdr: ChangeDetectorRef,private _snackBar: MatSnackBar) {
     this.today = this.resetTimeToIST(new Date());
     this.startDate = this.resetTimeToIST(new Date());
     this.maxDate = this.resetTimeToIST(new Date(this.today.getFullYear(), this.today.getMonth() + 3, this.today.getDate()));
     this.getBookedDate()
-    this.refreshCalendarView();
     console.log("aaaa"+this.bookings)
   }
 
-  NotificationRef(){
-    this.mealService.getNotifications(this.token.decodeToken().id);
+  openSnackBar(msg: string) {
+    this._snackBar.open(msg, 'Close', {
+      horizontalPosition: "center",
+      verticalPosition: "top",
+      duration: 3000
+    });
   }
 
   ngOnInit() {
     this.fetchMenu();
-    this.selectedDate = this.today; // Set today's date as selected by default
-    // this.refreshCalendarView(); // Refresh calendar view
+    this.selectedDate = this.today;
   }
 
   fetchMenu() {
@@ -115,7 +118,6 @@ getBookingStatus(date: Date) {
     if (!this.selectedDate || !this.mealType || this.isPastDate(this.selectedDate) || this.isWeekend(this.selectedDate)) { return false;}
     if ((this.mealType === 'LUNCH' && this.isPastLUNCHTime(this.selectedDate)) || (this.mealType === 'DINNER' && this.isPastDINNERTime(this.selectedDate))) return false;
     console.log("canBook()",this.selectedDate, this.mealType);
-    // this.refreshCalendarView();
     return !this.hasBooking(this.selectedDate, this.mealType);
   }
 
@@ -123,7 +125,6 @@ getBookingStatus(date: Date) {
     if (!this.selectedDate || this.isPastDate(this.selectedDate) || this.isWeekend(this.selectedDate)) return false;
     if ((this.mealType === 'LUNCH' && this.isPastLUNCHTime(this.selectedDate)) || (this.mealType === 'DINNER' && this.isPastDINNERTime(this.selectedDate))) return false;
     console.log("canCancel()",this.selectedDate, this.mealType);
-    // this.refreshCalendarView();
     return this.hasBooking(this.selectedDate, this.mealType);
   }
 
@@ -137,7 +138,6 @@ getBookingStatus(date: Date) {
 
   onDateChange(date: Date | null) {
     this.selectedDate = date;
-    // this.refreshCalendarView();
   }
 
   getBookedDate() {
@@ -181,29 +181,18 @@ getBookingStatus(date: Date) {
           }
           console.log('Bookings:', this.bookings);
           // this.getBookedDate();
+          this.mealService.getNotifications(this.token.decodeToken().id);
           this.refreshCalendarView();
+          this.openSnackBar("Booking successfully");
+
         },
         (error: HttpErrorResponse) => {
           console.error('Error booking meal:', error.message);
         }
       );
     }
-    this.NotificationRef();
     
   }
-  
-  // cancelBooking() {
-  //   if (this.selectedDate && this.mealType) {
-  //     const formattedDate = this.formatDateToIST(this.selectedDate);
-  //     if (this.bookings[formattedDate]) {
-  //       delete this.bookings[formattedDate][this.mealType];
-  //       if (Object.keys(this.bookings[formattedDate]).length === 0) {
-  //         delete this.bookings[formattedDate];
-  //       }
-  //     }
-  //     this.refreshCalendarView(); // Call refresh after canceling booking
-  //   }
-  // }
 
   cancelBooking() {
       const id = this.token.decodeToken().id;
@@ -215,18 +204,20 @@ getBookingStatus(date: Date) {
   
       this.mealService.deleteCoupon(id, date, menuType).subscribe(
         (response) => {
-          // this.responseMessage = 'Coupon deleted successfully';
-          // this.refreshCalendarView();
+          this.refreshCalendarView();
           console.log(response);
+          this.mealService.getNotifications(this.token.decodeToken().id);
+          this.waitForSeconds1(10);
+          console.log("clock : " ,10);
           this.getBookedDate();
           this.refreshCalendarView();
         },
         (error) => {
           // this.responseMessage = 'Error deleting coupon';
-          console.error('Error deleting coupon', error);
+          this.openSnackBar(error);
         }
       );
-      // this.refreshCalendarView();
+      this.openSnackBar("Booking Cancel successfully");
     }
   
 
@@ -246,7 +237,7 @@ getBookingStatus(date: Date) {
   isPastDINNERTime(date: Date): boolean {
     const today = new Date();
     const DINNERCutoff = new Date(date);
-    DINNERCutoff.setHours(14, 0, 0, 0);
+    DINNERCutoff.setHours(15, 0, 0, 0);
     return date.toDateString() === today.toDateString() && today > DINNERCutoff;
   }
 
@@ -301,10 +292,9 @@ getBookingStatus(date: Date) {
         this.bulkStartDate = this.resetTimeToIST(result.bulkStartDate);
         this.bulkEndDate = this.resetTimeToIST(result.bulkEndDate);
         this.bookBulkMeal();
+
       }
     });
-    // this.getBookedDate();
-    // this.refreshCalendarView();
   }
 
   bookBulkMeal() {
@@ -316,7 +306,7 @@ getBookingStatus(date: Date) {
       console.log("jdfnjfio: "+this.bookings)
       console.log(this.mealService.bulkBooking(this.token.decodeToken().id,this.bulkMealType,this.bulkStartDate,this.bulkEndDate))
       this.getBookedDate()
-      // this.refreshCalendarView();
+      // this.openSnackBar("Booking successfully");
     }
   }
 
@@ -332,6 +322,23 @@ getBookingStatus(date: Date) {
     } else {
       console.log('Calendar is not defined.');
     }
+  }
+
+  waitForSeconds(seconds: number): Promise<void> {
+    return new Promise<void>((resolve) => {
+      setTimeout(() => {
+        resolve();
+      }, seconds * 1000);
+    });
+  }
+
+  waitForOneOrTwoSeconds(duration: number): Promise<void> {
+    return this.waitForSeconds(duration);
+  }
+
+  async waitForSeconds1(duration: number) {
+    await this.waitForOneOrTwoSeconds(duration);
+    console.log(`Waited for ${duration} second(s).`);
   }
 
 }

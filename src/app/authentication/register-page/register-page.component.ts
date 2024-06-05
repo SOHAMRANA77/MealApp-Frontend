@@ -112,14 +112,16 @@ export class RegisterPageComponent {
 
   Registration() {
     if (!this.arePasswordsEqual()) {
-      alert("Passwords do not match");
+      // alert("Passwords do not match");
+      this.openSnackBar("Passwords do not match");
       return;
     }
     
     const selectedDepartment = this.Department.value;
 
     if (!this.isDepartment(selectedDepartment)) {
-      alert("Invalid department selected");
+      // alert("Invalid department selected");
+      this.openSnackBar("Invalid department selected");
       return;
     }
 

@@ -1,62 +1,64 @@
 <div class="mt-0">
-<section class="login-content">
-  <div class="login-content-lt"></div>
-  <div class="login-content-rt">
-    <div class="login-box">
-    <form class="login-form" action="#">
-      <div class="logo-wrapper">
-        <img src="../../assets/images/logo.svg" alt="Rishabh Software">
-        <span>Meal Facility</span>
-      </div>
-      <h3 class="login-head">Sign in to your account</h3>
-      <p class="login-text">Enter your credentials to access your account.</p>
-      <div class="input-addon">
-        <mat-form-field class="form-control" style="border-style: none; height: auto;">
-          <mat-label>Email Address</mat-label>
-          <input matInput placeholder="pat@example.com" [formControl]="Email" required>
-          <mat-error *ngIf="Email.invalid">{{ getErrorMessage(Email) }}</mat-error>
-        </mat-form-field>
-      </div>
-      
-      <div class="input-addon">
-        <mat-form-field class="form-control" style="border-style: none; height: auto;">
-          <mat-label>Password</mat-label>
-          <input matInput [type]="hidePassword ? 'password' : 'text'" placeholder="abc@!#342" [formControl]="Password" required>
-          <button mat-icon-button matSuffix (click)="togglePasswordVisibility()" [attr.aria-label]="hidePassword ? 'Show password' : 'Hide password'" [attr.aria-pressed]="!hidePassword" style="border: none;  background-color: transparent; padding-right: 15px;">
-            <mat-icon>{{ hidePassword ? 'visibility_off' : 'visibility' }}</mat-icon>
-          </button>
-          <mat-error *ngIf="Password.invalid">{{ getErrorMessage(Password) }}</mat-error>
-        </mat-form-field>
-      </div>
+  <section class="login-content">
+    <div class="login-content-lt"></div>
+    <div class="login-content-rt">
+      <div class="login-box">
+        <form class="login-form" action="#">
+          <div class="logo-wrapper">
+            <img src="../../assets/images/logo.svg" alt="Rishabh Software">
+            <span>Meal Facility</span>
+          </div>
+          <h3 class="login-head">Sign in to your account</h3>
+          <p class="login-text">Enter your credentials to access your account.</p>
+          <div class="input-addon">
+            <mat-form-field class="form-control" style="border-style: none; height: auto;">
+              <mat-label>Email Address</mat-label>
+              <input matInput placeholder="pat@example.com" [formControl]="Email" required>
+              <mat-error *ngIf="Email.invalid && (Email.dirty || Email.touched)">
+                {{ getErrorMessage(Email) }}
+              </mat-error>
+            </mat-form-field>
+          </div>
 
-      <div class="d-flex align-items-center justify-content-between" style="padding-left: 25px ;">
-        <div class="form-group mb-0">
-        <label class="custom-checkbox mb-0"><span class="checkbox__title">Remember Me</span>
-          <input class="checkbox__input" type="checkbox"/><span class="checkbox__checkmark"></span>
-        </label>
-      </div>
+          <div class="input-addon">
+            <mat-form-field class="form-control" style="border-style: none; height: auto;">
+              <mat-label>Password</mat-label>
+              <input matInput [type]="hidePassword ? 'password' : 'text'" placeholder="abc@!#342" [formControl]="Password" required>
+              <button mat-icon-button matSuffix (mousedown)="$event.preventDefault(); togglePasswordVisibility()" [attr.aria-label]="hidePassword ? 'Show password' : 'Hide password'" [attr.aria-pressed]="!hidePassword" style="border: none; background-color: transparent; padding-right: 15px;">
+                <mat-icon>{{ hidePassword ? 'visibility_off' : 'visibility' }}</mat-icon>
+              </button>
+              <mat-error *ngIf="Password.invalid && (Password.dirty || Password.touched)">
+                {{ getErrorMessage(Password) }}
+              </mat-error>
+            </mat-form-field>
+          </div>
 
-      <div class="form-group mb-0" style="padding-right: 10px;">
-        <div class="utility">
-          <p><a href="/auth/forgot" class="form-link">Forgot Password?</a></p>
-        </div>
-      </div>
-      </div>
-    
-      <div class="form-group btn-container" style="margin-left: 20px;">
-        
-        <button class="btn btn-xl btn-primary" (click)="login()" >Sign in</button>
-      </div>
+          <div class="d-flex align-items-center justify-content-between" style="padding-left: 25px;">
+            <div class="form-group mb-0">
+              <label class="custom-checkbox mb-0"><span class="checkbox__title">Remember Me</span>
+                <input class="checkbox__input" type="checkbox" /><span class="checkbox__checkmark"></span>
+              </label>
+            </div>
 
-      <div class="form-group mb-0" >
-        <div class="utility">
-          <p><a href="/auth/register" class="form-link" style="margin-left: 22px; padding: 15px; display: flex; justify-content: center;" >Sign up</a></p>
-        </div>
-      </div>
-    </form>
-  </div>
-  </div>
+            <div class="form-group mb-0" style="padding-right: 10px;">
+              <div class="utility">
+                <p><a href="/auth/forgot" class="form-link">Forgot Password?</a></p>
+              </div>
+            </div>
+          </div>
 
-</section>
+          <div class="form-group btn-container" style="margin-left: 20px;">
+            <button class="btn btn-xl btn-primary" (click)="login()">Sign in</button>
+          </div>
+
+          <div class="form-group mb-0">
+            <div class="utility">
+              <p><a href="/auth/register" class="form-link" style="margin-left: 22px; padding: 15px; display: flex; justify-content: center;">Sign up</a></p>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+  </section>
 </div>
 <router-outlet></router-outlet>

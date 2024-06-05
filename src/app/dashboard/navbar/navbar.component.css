@@ -216,6 +216,18 @@
 .mat-mdc-form-field {
   width: 100%;
 }
+.clear-all-btn {
+  /* position: absolute; */
+  bottom: 0;
+  width: 100%;
+  background-color: #1f00e8;
+  color: white;
+  border: none;
+  padding: 10px;
+  cursor: pointer;
+  border-radius: 5px;
+
+}
 
 @media (min-width: 200px) {
   .header-right .dropdown-content {

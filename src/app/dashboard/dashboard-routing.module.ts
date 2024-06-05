@@ -9,16 +9,16 @@ import { TermsNDcondiComponent } from './terms-ndcondi/terms-ndcondi.component';
 
 const routes: Routes = [
   {
-    path: '', component: DashboardComponent, canActivate: [AuthGuard] ,
+    path: '', component: DashboardComponent, canActivate: [AuthGuard],
     children:
-    [
-      {path:'', component: HomeComponent},
-      { path: 'aboutus', component: AboutUSComponent },
-      { path: 'privacypolicy', component: PrivacyPolicyComponent },
-      { path: 'terms&condition', component: TermsNDcondiComponent },
-      { path: '', redirectTo: '', pathMatch: 'full' },
-      { path: '**', redirectTo: '' }
-    ]
+      [
+        { path: '', component: HomeComponent },
+        { path: 'aboutus', component: AboutUSComponent },
+        { path: 'privacypolicy', component: PrivacyPolicyComponent },
+        { path: 'terms&condition', component: TermsNDcondiComponent },
+        { path: '', redirectTo: '', pathMatch: 'full' },
+        { path: '**', redirectTo: '' }
+      ]
   }
 ];
 

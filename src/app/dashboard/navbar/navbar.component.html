@@ -18,12 +18,15 @@
         </button>
         <div class="dropdown-content notification-dropdown-content" [class.show]="notificationDropdownOpen && notifications.length > 0">
           <ng-container *ngIf="notifications.length; else noNotifications">
-            <div *ngFor="let notification of notifications; let i = index">
-              <a href="#" (click)="removeNotification($event, notification.id, notification.message)" 
-                 [ngClass]="{'success-message': isSuccess(notification), 'failure-message': isFailure(notification)}">
-                {{ notification.message }}
-              </a>
+            <div class="notification-list">
+              <div *ngFor="let notification of notifications; let i = index">
+                <a href="#" (click)="removeNotification($event, notification.id, notification.message)" 
+                   [ngClass]="{'success-message': isSuccess(notification), 'failure-message': isFailure(notification)}">
+                  {{ notification.message }}
+                </a>
+              </div>
             </div>
+            <button class="clear-all-btn" (click)="removeAllNotifications($event)">Clear All Notifications</button>
           </ng-container>
           <ng-template #noNotifications>
             <p>No notifications</p>
