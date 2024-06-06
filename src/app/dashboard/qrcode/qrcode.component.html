@@ -1,1 +1,15 @@
-<p>qrcode works!</p>
+<div id="qrCodeBox">
+    <div id="qrCodeSquareFrame">
+      <div id="bubble_01"></div>
+      <div id="bubble_02"></div>
+      <div class="centered">
+        <qrcode [qrdata]="generateQRData()" [width]="220" [colorDark]="'#FFFFFF'" [colorLight]="'#000000'" [errorCorrectionLevel]="'H'"></qrcode>
+      </div>
+    </div>
+    <div class="text">
+        <h2>Name: {{ qrData.name }}</h2>
+        <p>Coupon Code: {{ qrData.couponCode }}</p>
+        <p>QR Date: {{ qrData.QrDate | date }}</p>
+        <p>Meal Type: {{ qrData.mealType }}</p>
+    </div>
+  </div>

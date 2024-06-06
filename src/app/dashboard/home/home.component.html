@@ -63,7 +63,7 @@
     <button mat-raised-button color="accent" (click)="openBulkBookingDialog()">Bulk Booking</button>
 
     <div id="mybutton">
-      <button class="QRcode" *ngIf="shouldShowButton()">
+      <button class="QRcode" *ngIf="shouldShowButton()" (click)="openQrCodeDialog()">
         <img src="../../../assets/icons/QRcodeButton.png" alt="QRcode">
       </button>
     </div>

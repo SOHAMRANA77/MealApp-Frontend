@@ -11,6 +11,7 @@ import {MatNativeDateModule} from '@angular/material/core';
 import {MatCardModule} from '@angular/material/card';
 import {MatBadgeModule} from '@angular/material/badge';
 import { MatIconModule } from '@angular/material/icon';
+import { QRCodeModule } from 'angularx-qrcode';
 
 import { DashboardRoutingModule } from './dashboard-routing.module';
 import { DashboardComponent } from '../dashboard/dashboard.component';
@@ -52,7 +53,8 @@ import { TermsNDcondiComponent } from './terms-ndcondi/terms-ndcondi.component';
     MatButtonModule,
     MatDialogModule,
     MatBadgeModule,
-    MatIconModule
+    MatIconModule,
+    QRCodeModule
   ]
 })
 export class DashboardModule { }

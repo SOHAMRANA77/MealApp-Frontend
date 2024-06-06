@@ -7,6 +7,7 @@ import { JwtHelperService } from '@auth0/angular-jwt';
 })
 export class AuthService {
   private tokenKey = 'authToken';
+  private logoutInProgress = false;
 
   constructor(private router: Router, private jwtHelper: JwtHelperService) {}
 
@@ -16,17 +17,28 @@ export class AuthService {
   }
 
   logout(): void {
+    this.logoutInProgress = true;
+    console.log('Logout initiated, flag set to true.');
     localStorage.removeItem(this.tokenKey);
-    this.router.navigate(['/auth/login']);
+    this.router.navigate(['/auth/login']).then(() => {
+      console.log('Navigation to login complete.');
+      this.logoutInProgress = false; // Reset the flag after navigation completes
+      console.log('Flag reset to false.');
+    });
+  }
+
+  isAuthenticated(): boolean {
+    const token = this.getToken();
+    return token ? !this.jwtHelper.isTokenExpired(token) : false;
   }
 
   getToken(): string | null {
     return localStorage.getItem(this.tokenKey);
   }
 
-  isAuthenticated(): boolean {
-    const token = this.getToken();
-    return token ? !this.jwtHelper.isTokenExpired(token) : false;
+  isLogoutInProgress(): boolean {
+    console.log('Checking logoutInProgress:', this.logoutInProgress);
+    return this.logoutInProgress;
   }
 
   decodeToken(): any {

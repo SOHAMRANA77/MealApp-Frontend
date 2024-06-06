@@ -8,6 +8,7 @@ import { ApiService ,Booking  } from '../Services/API/api.service';
 import { MatCalendar } from '@angular/material/datepicker';
 import { HttpErrorResponse } from '@angular/common/http';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { QRcodeComponent } from '../qrcode/qrcode.component';
 
 
 
@@ -273,7 +274,7 @@ getBookingStatus(date: Date) {
       return true;
     }
 
-    if (this.hasBooking(this.selectedDate, 'DINNER') && currentHour >= 19 && currentHour < 20) {
+    if (this.hasBooking(this.selectedDate, 'DINNER') && currentHour >= 9 && currentHour < 20) {
       return true;
     }
 
@@ -340,5 +341,12 @@ getBookingStatus(date: Date) {
     await this.waitForOneOrTwoSeconds(duration);
     console.log(`Waited for ${duration} second(s).`);
   }
+
+  openQrCodeDialog() {
+    this.dialog.open(QRcodeComponent, {
+      width: '400px', // Adjust dimensions as needed
+      data: { date: this.selectedDate, mealType: this.mealType } // Pass necessary data to the dialog
+    });
+  }
 
 }

@@ -18,7 +18,10 @@ interface DeleteCouponRequest {
 }
 
 interface QrCodeResponse {
-  message: string;
+  empName: string;
+  CouponCode:string;
+  LocalDate:Date;
+  MenuType: 'LUNCH' | 'DINNER';
   http: any;
   status: boolean;
 }
@@ -207,13 +210,27 @@ private handleError(error: HttpErrorResponse): Observable<any> {
   // }
 
 
+  // getQrCode(empId: number, date: string, type: string): Observable<QrCodeResponse> {
+  //   const params = new HttpParams()
+  //     .set('emp_id', empId.toString())
+  //     .set('date', date)
+  //     .set('type', type);
+
+  //   // Append the params to the URL
+  //   const url = `${environment.mainURL}/G etQrCode?${params.toString()}`;
+
+  //   return this.http.post<QrCodeResponse>(url, null);
+  // }
+
   getQrCode(empId: number, date: string, type: string): Observable<QrCodeResponse> {
     const params = new HttpParams()
       .set('emp_id', empId.toString())
       .set('date', date)
       .set('type', type);
 
-    return this.http.get<QrCodeResponse>(`${environment.mainURL}/GetQrCode`, { params });
+    const url = `${environment.mainURL}/GetQrCode`;
+
+    return this.http.get<QrCodeResponse>(url, { params });
   }
 
   changePassword(data: ChangePasswordRequest): Observable<ChangePasswordResponse> {

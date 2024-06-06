@@ -24,9 +24,9 @@ export class LoginPageComponent {
     private service: ApiService,
     private _snackBar: MatSnackBar
   ) {
-    if (this.StorageService.isAuthenticated()) {
-      this.router.navigateByUrl('/dashboard');
-    }
+    // if (this.StorageService.isAuthenticated()) {
+    //   this.router.navigateByUrl('/dashboard');
+    // }
   }
 
   togglePasswordVisibility(): void {

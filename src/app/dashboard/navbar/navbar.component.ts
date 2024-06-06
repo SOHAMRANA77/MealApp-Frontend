@@ -221,9 +221,11 @@ export class NavbarComponent {
     );
   }
 
-  Logout(){
+  Logout():void{
+    console.log('Logout button clicked.');
     this.token.logout();
   }
+
 
   ChangePassword() {
     // Password change logic here
