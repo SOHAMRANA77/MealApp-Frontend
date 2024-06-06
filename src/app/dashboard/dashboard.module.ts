@@ -25,6 +25,7 @@ import { CustomAlertDialogComponent } from './custom-alert-dialog/custom-alert-d
 import { AboutUSComponent } from './about-us/about-us.component';
 import { PrivacyPolicyComponent } from './privacy-policy/privacy-policy.component';
 import { TermsNDcondiComponent } from './terms-ndcondi/terms-ndcondi.component';
+import { LogoutConfirmationDialogComponent } from './logout-confirmation-dialog/logout-confirmation-dialog.component';
 
 
 @NgModule({
@@ -38,7 +39,8 @@ import { TermsNDcondiComponent } from './terms-ndcondi/terms-ndcondi.component';
     CustomAlertDialogComponent,
     AboutUSComponent,
     PrivacyPolicyComponent,
-    TermsNDcondiComponent
+    TermsNDcondiComponent,
+    LogoutConfirmationDialogComponent
   ],
   imports: [
     CommonModule,

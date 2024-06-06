@@ -3,6 +3,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { CustomAlertDialogComponent } from '../custom-alert-dialog/custom-alert-dialog.component';
 import { ApiService } from '../Services/API/api.service';
 import { AuthService } from 'src/app/authentication/Services/auth.service';
+import { LogoutConfirmationDialogComponent } from '../logout-confirmation-dialog/logout-confirmation-dialog.component';
 
 interface Notification {
   type: string;
@@ -115,10 +116,10 @@ export class NavbarComponent {
   }
 
   handleChangePassword() {
-    if (this.passwordForm.oldPassword !== this.currentPassword) {
-      this.errorMessage = 'Old password does not match.';
-      return;
-    }
+    // if (this.passwordForm.oldPassword !== this.currentPassword) {
+    //   this.errorMessage = 'Old password does not match.';
+    //   return;
+    // }
 
     if (this.passwordForm.newPassword !== this.passwordForm.confirmNewPassword) {
       this.errorMessage = 'New password and confirm new password do not match.';
@@ -202,6 +203,7 @@ export class NavbarComponent {
       }
     });
   }
+  
 
   changePassword() {
     const data = {
@@ -221,9 +223,19 @@ export class NavbarComponent {
     );
   }
 
-  Logout():void{
+  Logout(event: Event):void{
     console.log('Logout button clicked.');
-    this.token.logout();
+    event.preventDefault();
+    // this.showCustomAlert('Warning', 'Do you really want to logout?');
+    const logoutDialogRef = this.dialog.open(LogoutConfirmationDialogComponent);
+
+    logoutDialogRef.afterClosed().subscribe(result => {
+      if (result === true) {
+        this.token.logout();
+      }
+    });
+    
+    
   }
 
 
@@ -257,5 +269,19 @@ export class NavbarComponent {
   removeAllNotifications(event: Event) {
     event.preventDefault();
     this.notifications = [];
-  }
+  
+    const data: DeleteNotificationRequest = {
+      id: 0,
+      empId: this.token.decodeToken().id
+    };
+
+    this.bookingService.deleteAllNotification(data).subscribe(
+      (response) => {
+        console.log("Delete notification response: ", response);
+      },
+      (error) => {
+        console.error('Error deleting notification', error);
+      }
+    );
+    }
 }

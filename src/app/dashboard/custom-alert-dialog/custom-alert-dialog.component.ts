@@ -22,4 +22,13 @@ export class CustomAlertDialogComponent {
   onClose(): void {
     this.dialogRef.close();
   }
+
+  onConfirm(): void {
+    this.dialogRef.close(true);
+  }
+
+  onCancel(): void {
+    this.dialogRef.close(false);
+  }
+
 }

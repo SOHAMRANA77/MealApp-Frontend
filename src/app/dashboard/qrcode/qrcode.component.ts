@@ -1,6 +1,10 @@
-import { Component } from '@angular/core';
+import { Component, Inject } from '@angular/core';
 import { ApiService } from '../Services/API/api.service';
 import { AuthService } from 'src/app/authentication/Services/auth.service';
+import { Observable } from 'rxjs';
+import { MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { DatePipe } from '@angular/common';
+
 
 @Component({
   selector: 'app-qrcode',
@@ -8,11 +12,16 @@ import { AuthService } from 'src/app/authentication/Services/auth.service';
   styleUrls: ['./qrcode.component.css']
 })
 export class QRcodeComponent {
-  constructor(private bookingService: ApiService, private token: AuthService) {
+  constructor(
+    private bookingService: ApiService,
+    private token: AuthService,
+    @Inject(MAT_DIALOG_DATA) public data: any // Inject data here
+    ,private datePipe: DatePipe
+  ) {
     this.getQrCode();
   }
 
-  qrCodeResponse: any;
+  qrCodeResponse: QrCodeResponse | undefined;
 
   name: string = "naitik";
   QrDate: Date = new Date();
@@ -28,28 +37,26 @@ export class QRcodeComponent {
 
   getQrCode() {
     const empId = this.token.decodeToken().id;
-    const date = '2024-06-06' as string;
-    const type = 'DINNER';
+    const date =  this.datePipe.transform(this.data.date, 'yyyy-MM-dd') || '';  
+    const type = this.data.mealType;
+    // const type = "DINNER"
 
     this.bookingService.getQrCode(empId, date, type).subscribe(
-      (response) => {
-        this.qrCodeResponse = response;
+      (response: any) => {
+        this.qrCodeResponse = response.body;
         console.log(response);
-        this.qrData.name = response.empName;
-        this.qrData.couponCode = response.CouponCode;
-        this.qrData.mealType = response.MenuType;
-
-        // Check the value of response.LocalDate
-        console.log('Response LocalDate:', response.LocalDate);
+        this.qrData.name = response.body.empName;
+        this.qrData.couponCode = response.body.couponCode;
+        this.qrData.mealType = response.body.menuType;
 
         // Ensure QrDate is a Date object
-        this.qrData.QrDate = new Date(response.LocalDate);
+        this.qrData.QrDate = new Date(response.body.qrDate);
 
         // Update class properties (optional, if you need them elsewhere)
-        this.name = response.empName;
-        this.couponCode = response.CouponCode;
-        this.mealType = response.MenuType;
-        this.QrDate = new Date(response.LocalDate);
+        this.name = response.body.empName;
+        this.couponCode = response.body.couponCode;
+        this.mealType = response.body.menuType;
+        this.QrDate = new Date(response.body.qrDate);
       },
       (error) => {
         console.error('Error getting QR code', error);
@@ -64,4 +71,13 @@ export class QRcodeComponent {
     mealType: ${this.qrData.mealType}
     couponCode: ${this.qrData.couponCode}`;
   }
+}
+
+interface QrCodeResponse {
+  empName: string;
+  couponCode: string;
+  qrDate: string; // Adjusted to match the response
+  menuType: 'LUNCH' | 'DINNER';
+  httpStatus: any; // Adjusted to match the response
+  status: boolean;
 }

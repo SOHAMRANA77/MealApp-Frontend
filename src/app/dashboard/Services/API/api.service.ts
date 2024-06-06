@@ -19,10 +19,10 @@ interface DeleteCouponRequest {
 
 interface QrCodeResponse {
   empName: string;
-  CouponCode:string;
-  LocalDate:Date;
-  MenuType: 'LUNCH' | 'DINNER';
-  http: any;
+  couponCode: string;
+  qrDate: string; // Adjusted to match the response
+  menuType: 'LUNCH' | 'DINNER';
+  httpStatus: any; // Adjusted to match the response
   status: boolean;
 }
 interface DeleteNotificationRequest {
@@ -257,6 +257,14 @@ private handleError(error: HttpErrorResponse): Observable<any> {
     });
 
     return this.http.put<LogResponse>(`${environment.mainURL}/deleteNotification`, request, { headers });
+  }
+
+  deleteAllNotification(request: DeleteNotificationRequest): Observable<LogResponse> {
+    const headers = new HttpHeaders({
+      'Content-Type': 'application/json',
+    });
+
+    return this.http.put<LogResponse>(`${environment.mainURL}/deleteAllNotification`, request, { headers });
   }
 
   getName(id: number): Observable<string> {

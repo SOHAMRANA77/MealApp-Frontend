@@ -3,6 +3,7 @@ import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { ApiService } from '../Services/API/api.service';
 import { AuthService } from 'src/app/authentication/Services/auth.service';
 import { HttpErrorResponse } from '@angular/common/http';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-bulk-booking',
@@ -18,31 +19,39 @@ export class BulkBookingComponent {
   minDate: Date = new Date(this.today.getFullYear(), this.today.getMonth(), this.today.getDate() + 1);
   maxDate: Date = new Date(this.today.getFullYear(), this.today.getMonth() + 2, this.today.getDate());
 
-  constructor(public dialogRef: MatDialogRef<BulkBookingComponent>, @Inject(MAT_DIALOG_DATA) public data: any, private token: AuthService, private mealService: ApiService,) {}
+  constructor(public dialogRef: MatDialogRef<BulkBookingComponent>, @Inject(MAT_DIALOG_DATA) public data: any, private token: AuthService, private mealService: ApiService,private _snackBar: MatSnackBar) {}
+
+  openSnackBar(msg: string) {
+    this._snackBar.open(msg, 'Close', {
+      horizontalPosition: "center",
+      verticalPosition: "top",
+      duration: 3000
+    });
+  }
 
   validateDateRange(): boolean {
     if (!this.bulkMealType) {
-      alert('Please select a meal type.');
+      this.openSnackBar('Please select a meal type.');
       return false;
     }
 
     if (!this.bulkStartDate || !this.bulkEndDate) {
-      alert('Please select both start and end dates.');
+      this.openSnackBar('Please select both start and end dates.');
       return false;
     }
 
     if (this.bulkStartDate < this.minDate) {
-      alert('The start date must be from tomorrow onwards.');
+      this.openSnackBar('The start date must be from tomorrow onwards.');
       return false;
     }
 
     if (this.bulkStartDate > this.bulkEndDate) {
-      alert('The start date must be before the end date.');
+      this.openSnackBar('The start date must be before the end date.');
       return false;
     }
 
     if (this.bulkEndDate > this.maxDate) {
-      alert('The end date must be within two months from today.');
+      this.openSnackBar('The end date must be within two months from today.');
       return false;
     }
 
@@ -63,9 +72,10 @@ export class BulkBookingComponent {
           this.bulkStartDate, 
           this.bulkEndDate
         ).subscribe(
-          () => {
+          (response) => {
             // Handle successful booking
-            console.log('Bulk meal booked successfully');
+            // console.log('Bulk meal booked successfully');
+            this.openSnackBar(response.message);  
             // You may want to handle any UI updates here
           },
           (error: HttpErrorResponse) => {

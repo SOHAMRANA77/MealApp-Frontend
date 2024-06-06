@@ -41,6 +41,7 @@ export class HomeComponent implements OnInit{
   menu: { [key: string]: { LUNCH: string[], DINNER: string[] } } = {};
 
   bulkMealType: 'LUNCH' | 'DINNER' | null = null;
+  CouponMealType: 'LUNCH' | 'DINNER' | null = null;
   bulkStartDate: Date | null = null;
   bulkEndDate: Date | null = null;
 
@@ -172,7 +173,7 @@ getBookingStatus(date: Date) {
     if (this.selectedDate && this.mealType) {
       const formattedDate = this.formatDateToIST(this.selectedDate);
       this.mealService.bulkBooking(this.token.decodeToken().id, this.mealType.toUpperCase() as 'LUNCH' | 'DINNER', this.selectedDate).subscribe(
-        () => {
+        (response) => {
           if (!this.bookings[formattedDate]) {
             this.bookings[formattedDate] = {};
           }
@@ -184,7 +185,12 @@ getBookingStatus(date: Date) {
           // this.getBookedDate();
           this.mealService.getNotifications(this.token.decodeToken().id);
           this.refreshCalendarView();
-          this.openSnackBar("Booking successfully");
+          if(response.status = true){
+            this.openSnackBar("Booking Succsessful");
+          }else{
+            this.openSnackBar("Booking Failed");
+          }
+          
 
         },
         (error: HttpErrorResponse) => {
@@ -271,10 +277,12 @@ getBookingStatus(date: Date) {
     }
 
     if (this.hasBooking(this.selectedDate, 'LUNCH') && currentHour >= 12 && currentHour < 13) {
+      this.CouponMealType='LUNCH';
       return true;
     }
 
     if (this.hasBooking(this.selectedDate, 'DINNER') && currentHour >= 9 && currentHour < 20) {
+      this.CouponMealType='DINNER';
       return true;
     }
 
@@ -323,6 +331,7 @@ getBookingStatus(date: Date) {
     } else {
       console.log('Calendar is not defined.');
     }
+    this.mealService.getNotifications(this.token.decodeToken().id);
   }
 
   waitForSeconds(seconds: number): Promise<void> {
@@ -344,8 +353,8 @@ getBookingStatus(date: Date) {
 
   openQrCodeDialog() {
     this.dialog.open(QRcodeComponent, {
-      width: '400px', // Adjust dimensions as needed
-      data: { date: this.selectedDate, mealType: this.mealType } // Pass necessary data to the dialog
+      minWidth: '400px', // Adjust dimensions as needed
+      data: { date: this.selectedDate, mealType: this.CouponMealType } // Pass necessary data to the dialog
     });
   }
 
