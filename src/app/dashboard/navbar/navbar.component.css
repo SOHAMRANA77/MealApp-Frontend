@@ -11,6 +11,7 @@
   padding: 20px;
   background-color: #182c56;
   color: #ffffff;
+  
 }
 
 .header-left {
@@ -62,7 +63,7 @@
   min-width: 160px;
   box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
   z-index: 1;
-  top: 60px;
+  top: 69px;
 }
 
 .header-right .dropdown-content a {
@@ -106,7 +107,7 @@
   overflow-y: auto; /* Add scrollbar when content overflows */
   box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
   z-index: 1;
-  top: 60px;
+  top: 69px;
 }
 
 /* Scrollbar styling */
@@ -227,6 +228,67 @@
   cursor: pointer;
   border-radius: 5px;
 
+}
+
+.profile-btn {
+  background-color: transparent; /* Set background color to transparent */
+  border: none;
+  cursor: pointer;
+  margin-left: 10px;
+  margin-right: 30px;
+  display: flex;
+  align-items: center;
+  
+}
+
+.large-close {
+  font-size: 30px; /* Adjust size as needed */
+}
+
+
+.sidebar-container {
+  position: fixed;
+  top: 92px;
+  left: -300px; /* Change right to left */
+  width: 300px;
+  height: 100%;
+  background-color: #ffffff;
+  box-shadow: 2px 0 5px rgba(0, 0, 0, 0.5); /* Change shadow direction */
+  z-index: 1000;
+  transition: left 0.3s ease; /* Change right to left */
+}
+
+.sidebar-container.open {
+  left: 0; /* Slide in */
+}
+
+.sidebar-content {
+  padding: 20px;
+}
+
+.sidebar-content a {
+  display: block;
+  padding: 10px;
+  text-decoration: none;
+  color: #182c56;
+  font-size: 18px;
+}
+
+.sidebar-content a:hover {
+  background-color: #f1f1f1;
+}
+
+.close-btn {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  font-size: 24px;
+  cursor: pointer;
+  color: #888;
+}
+
+.close-btn:hover {
+  color: #000;
 }
 
 @media (min-width: 200px) {

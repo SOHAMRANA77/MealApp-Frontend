@@ -61,7 +61,7 @@ export class ApiService {
       email: email,
       newPassword: password
     };
-    return this.Http.put<any>(environment.mainURL+"/changePassword", body, { headers: headers });
+    return this.Http.put<any>(environment.mainURL+"/changePasswordByOtp", body, { headers: headers });
   }
 
   public ListDepart(){

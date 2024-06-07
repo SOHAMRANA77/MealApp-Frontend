@@ -9,6 +9,7 @@ import { MatSelectModule } from '@angular/material/select';
 import { MatIconModule } from '@angular/material/icon';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 
 import { AuthenticationRoutingModule } from './authentication-routing.module';
 import { AuthenticationComponent } from '../authentication/authentication.component';
@@ -39,6 +40,7 @@ import { OTPdialogComponent } from './otpdialog/otpdialog.component';
     MatSnackBarModule,
     FormsModule,
     MatSelectModule,
+    MatProgressSpinnerModule,
     MatDialogModule
   ]
 })

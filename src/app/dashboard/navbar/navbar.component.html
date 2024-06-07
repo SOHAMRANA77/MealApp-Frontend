@@ -1,11 +1,27 @@
 <div class="container">
   <header class="header">
+    <div class="header-left" >
+      <div class="sidebar-container" [class.open]="sidebarOpen" >
+        <div class="sidebar-content">
+          <span class="close-btn large-close" (click)="toggleSidebar()">&times;</span>
+          <a href="#" (click)="openChangePasswordDialog($event)">Change Password</a>
+          <a href="dashboard/aboutus">About Us</a>
+          <a href="dashboard/terms&condition">terms&condition</a>
+          <a href="dashboard/privacypolicy">Privacy Policy</a>
+          <a href="#" (click)="Logout($event)">Logout</a>
+        </div>
+      </div>
+      <button class="profile-btn" aria-label="Profile" (click)="toggleSidebar()">
+        <img src="../../../assets/icons/menu2.png" alt="Profile">
+      </button>
+
     <a href="dashboard/" class="homepage" style="text-decoration: none; color: aliceblue;">
       <div class="header-left" >
         <img src="assets/icons/logo-white.svg" alt="Logo" class="logo">
         <h1 class="title">Meal Facility</h1>
       </div>
     </a>
+  </div>
     <div class="header-right">
       <div class="greeting title">
         <p>Hey, {{ username }}</p>
@@ -33,7 +49,7 @@
           </ng-template>
         </div>
       </div>
-      <div class="dropdown">
+      <!-- <div class="dropdown">
         <button class="profile-btn" aria-label="Profile" (click)="toggleDropdown()">
           <img src="assets/icons/menu.png" alt="Profile">
         </button>
@@ -44,7 +60,7 @@
           <a href="dashboard/privacypolicy">Privacy Policy</a>
           <a href="#" (click)="Logout($event)">Logout</a>
         </div>
-      </div>
+      </div> -->
     </div>
   </header>
 

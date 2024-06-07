@@ -12,6 +12,7 @@ import {MatCardModule} from '@angular/material/card';
 import {MatBadgeModule} from '@angular/material/badge';
 import { MatIconModule } from '@angular/material/icon';
 import { QRCodeModule } from 'angularx-qrcode';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 
 import { DashboardRoutingModule } from './dashboard-routing.module';
 import { DashboardComponent } from '../dashboard/dashboard.component';
@@ -56,7 +57,9 @@ import { LogoutConfirmationDialogComponent } from './logout-confirmation-dialog/
     MatDialogModule,
     MatBadgeModule,
     MatIconModule,
-    QRCodeModule
+    QRCodeModule,
+    MatProgressSpinnerModule 
+
   ]
 })
 export class DashboardModule { }

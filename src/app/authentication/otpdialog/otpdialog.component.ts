@@ -108,15 +108,21 @@ export class OTPdialogComponent {
     if(this.arePasswordsEqual()){
       const pass = this.Password.value as string;
       this.api.changePass(this.data.email, pass).subscribe((data)=>{
-        // if(data.status == true){}
-        this.openSnackBar("Change Password Successfully");
+        if(data.status == true){
+          this.openSnackBar("Change Password Successfully");
+          this.onNoClick();
         this.router.navigate(['/auth/login']);
+        }
       })
     }
   }
   onSend(){
     this.api.SendOtp(this.data.email).subscribe((data) => {
-      this.openSnackBar("OTP Sent");
+      if(data.status){
+        this.openSnackBar("OTP Sent");
+      }else{
+        this.openSnackBar(data.message)
+      }
     })
   }
   

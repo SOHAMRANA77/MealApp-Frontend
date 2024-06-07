@@ -8,13 +8,10 @@ body {
   align-items: center;
   margin: 0px;
   background: #d3dfed;
-  overflow: hidden;
-  /* border-radius: 2000px;
-  border-color: black; */
 }
 
 #qrCodeBox {
-  height: 400px;
+  min-height: 400px;
   width: 90%;
   max-width: 355px;
   background: #fffffd;
@@ -24,7 +21,6 @@ body {
   flex-direction: column;
   align-items: center;
   padding: 20px;
-  margin: 0%;
 }
 
 #qrCodeSquareFrame {
@@ -48,7 +44,7 @@ body {
   justify-content: center;
 }
 
-#bubble_01 {
+/* #bubble_01 {
   width: 210px;
   height: 180px;
   background: #3685fe;
@@ -66,7 +62,7 @@ body {
   left: 165px;
   border-radius: 100% 0 10px 0;
   z-index: -1;
-}
+} */
 
 .text {
   width: 90%;
@@ -76,7 +72,7 @@ body {
   color: #ffffff;
   margin-top: 20px;
   background: #3685fe;
-  border-radius: 20px;
+  border-radius: 5%;
   padding: 20px 0px;
 }
 
@@ -90,6 +86,54 @@ body {
 .text p {
   margin-top: -7px;
 }
+
+.blur {
+  filter: blur(8px);
+}
+
+.redeemed-text {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  color: green;
+  font-size: 24px;
+  font-weight: bold;
+}
+
+.timer {
+  margin-top: 20px;
+  text-align: center;
+  font-size: 18px;
+  color: red;
+}
+
+.qr-container.blur {
+  filter: blur(8px);
+}
+
+.redeemed-overlay {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background-color: rgba(0, 128, 0, 0.7); /* Green background with transparency */
+  color: white;
+  font-size: 24px;
+  font-weight: bold;
+  padding: 10px;
+  border-radius: 5px;
+  z-index: 10;
+}
+
+.timer {
+  margin-top: 20px;
+  text-align: center;
+  font-size: 18px;
+  color: red;
+}
+
+
 
 /* Responsive adjustments */
 @media (max-width: 600px) {

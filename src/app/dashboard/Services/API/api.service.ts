@@ -227,7 +227,7 @@ private handleError(error: HttpErrorResponse): Observable<any> {
       .set('emp_id', empId.toString())
       .set('date', date)
       .set('type', type);
-
+      console.log(params);
     const url = `${environment.mainURL}/GetQrCode`;
 
     return this.http.get<QrCodeResponse>(url, { params });

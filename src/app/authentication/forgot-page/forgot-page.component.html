@@ -20,7 +20,9 @@
 
       
         <div class="form-group btn-container" style="margin-left: 22px; margin-right: 10px;">
-          <button class="btn btn-xl btn-primary"  (click)="onSubmit()" [disabled]="Email.invalid">Submit</button>
+          <button type="submit" class="btn btn-xl btn-primary"  (click)="onSubmit()" [disabled]="Email.invalid || loading">Submit
+            <span *ngIf="loading" class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+          </button>
         </div>
       </form>
     </div>

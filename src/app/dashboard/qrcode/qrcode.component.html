@@ -1,4 +1,4 @@
-<div id="qrCodeBox">
+<!-- <div id="qrCodeBox">
     <div id="qrCodeSquareFrame">
       <div id="bubble_01"></div>
       <div id="bubble_02"></div>
@@ -8,8 +8,29 @@
     </div>
     <div class="text">
         <h2>Name: {{ qrData.name }}</h2>
-        <p>{{ qrData.couponCode }}</p>
+        <p>{{ qrData.couponCode }}</p> -->
         <!-- <p>QR Date: {{ qrData.QrDate | date }}</p>
         <p>Meal Type: {{ qrData.mealType }}</p> -->
+    <!-- </div>
+  </div> -->
+
+  <div id="qrCodeBox">
+    <div id="qrCodeSquareFrame">
+      <div id="bubble_01"></div>
+      <div id="bubble_02"></div>
+      <div class="centered">
+        <div class="qr-container" [ngClass]="{'blur': redeemed}">
+          <qrcode [qrdata]="generateQRData()" [width]="220" [colorDark]="'#FFFFFF'" [colorLight]="'#000000'" [errorCorrectionLevel]="'H'"></qrcode>
+        </div>
+        <div *ngIf="redeemed" class="redeemed-overlay">Redeemed</div>
+      </div>
     </div>
+    <div class="timer" *ngIf="!redeemed">
+      <p>{{ countdownMinutes }}:{{ countdownSeconds }}</p>
+    </div>
+    <div class="text" *ngIf="!redeemed">
+      <h2>Name: {{ qrData.name }}</h2>
+        <p>{{ qrData.couponCode }}</p>
+    </div>
+    
   </div>

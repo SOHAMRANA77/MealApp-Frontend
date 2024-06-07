@@ -218,13 +218,14 @@ getBookingStatus(date: Date) {
           console.log("clock : " ,10);
           this.getBookedDate();
           this.refreshCalendarView();
+          this.openSnackBar(response.message);
         },
         (error) => {
           // this.responseMessage = 'Error deleting coupon';
           this.openSnackBar(error);
         }
       );
-      this.openSnackBar("Booking Cancel successfully");
+      
     }
   
 
@@ -353,7 +354,8 @@ getBookingStatus(date: Date) {
 
   openQrCodeDialog() {
     this.dialog.open(QRcodeComponent, {
-      minWidth: '400px', // Adjust dimensions as needed
+      minWidth: '400px',
+      // minHeight:'500px', // Adjust dimensions as needed
       data: { date: this.selectedDate, mealType: this.CouponMealType } // Pass necessary data to the dialog
     });
   }
