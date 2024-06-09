@@ -238,14 +238,13 @@ getBookingStatus(date: Date) {
     const today = new Date();
     const LUNCHCutoff = new Date(date);
     LUNCHCutoff.setHours(9, 0, 0, 0);
-    // console.log("idhiofjfjijijsoijvifxihovji"+LUNCHCutoff.setHours(9, 0, 0, 0));
     return date.toDateString() === today.toDateString() && today > LUNCHCutoff;
   }
 
   isPastDINNERTime(date: Date): boolean {
     const today = new Date();
     const DINNERCutoff = new Date(date);
-    DINNERCutoff.setHours(15, 0, 0, 0);
+    DINNERCutoff.setHours(14, 0, 0, 0);
     return date.toDateString() === today.toDateString() && today > DINNERCutoff;
   }
 

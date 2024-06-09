@@ -37,7 +37,7 @@
             <div class="notification-list">
               <div *ngFor="let notification of notifications; let i = index">
                 <a href="#" (click)="removeNotification($event, notification.id, notification.message)" 
-                   [ngClass]="{'success-message': isSuccess(notification), 'failure-message': isFailure(notification)}">
+                   [ngClass]="{'success-message': isSuccess(notification), 'failure-message': isFailure(notification), 'opt-message':isOtp(notification), 'new-message':isNew(notification)}">
                   {{ notification.message }}
                 </a>
               </div>

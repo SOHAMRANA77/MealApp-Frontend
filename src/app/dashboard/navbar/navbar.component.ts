@@ -97,8 +97,8 @@ export class NavbarComponent {
       'WELCOME': 'welcome',
       'OTP': 'otp',
       'PASSWORD': 'changePassword',
-      'BOOKED': 'mealBooked'
-      // Add more mappings as needed
+      'BOOKED': 'mealBooked',
+      'BOOKING_CANCEL': 'bookingCancel'
     };
 
     return apiNotifications.map(notification => ({
@@ -180,11 +180,18 @@ export class NavbarComponent {
   
 
   isSuccess(notification: Notification): boolean {
-    return notification.message.toLowerCase().includes('successfully');
+    // return notification.message.toLowerCase().includes('successfully');
+    return notification.type == 'mealBooked';
   }
 
   isFailure(notification: Notification): boolean {
-    return notification.message.toLowerCase().includes('failed');
+    return notification.type == 'bookingCancel';
+  }
+  isOtp(notification: Notification): boolean{
+    return notification.type == ('changePassword' || 'otp');
+  }
+  isNew(notification:Notification): boolean{
+    return notification.type == 'welcome';
   }
 
   @HostListener('document:click', ['$event'])

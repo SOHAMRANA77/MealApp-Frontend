@@ -11,7 +11,9 @@ import { AuthService } from '../Services/auth.service';
   styleUrls: ['../authentication.component.css']
 })
 export class LoginPageComponent {
-  Email = new FormControl(null, [Validators.required, Validators.email]);
+  rememberMe: boolean = false;
+
+  Email = new FormControl('', [Validators.required, Validators.email]);
   Password = new FormControl('', [
     Validators.required,
     Validators.pattern(/^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*\W).{8,}$/)
@@ -27,6 +29,17 @@ export class LoginPageComponent {
     // if (this.StorageService.isAuthenticated()) {
     //   this.router.navigateByUrl('/dashboard');
     // }
+  }
+
+  ngOnInit() {
+    // Check if user credentials are saved in local storage
+    const savedUsername = localStorage.getItem('rememberMeUsername');
+    const savedPassword = localStorage.getItem('rememberMePassword');
+    if (savedUsername && savedPassword) {
+      this.Email.setValue(savedUsername);
+      this.Password.setValue(savedPassword);
+      this.rememberMe = true;
+    }
   }
 
   togglePasswordVisibility(): void {
@@ -55,13 +68,23 @@ export class LoginPageComponent {
   }
 
   login() {
-    // if (this.Email.invalid || this.Password.invalid) {
-    //   this.openSnackBar('Please fill in all required fields correctly');
-    //   return;
-    // }
+    if (this.Email.invalid || this.Password.invalid) {
+      this.openSnackBar('Please fill in all required fields correctly');
+      return;
+    }
 
     const email = this.Email.value || '';
     const password = this.Password.value || '';
+
+    if (this.rememberMe) {
+      // Save credentials in local storage
+      localStorage.setItem('rememberMeUsername', email);
+      localStorage.setItem('rememberMePassword', password);
+    } else {
+      // Remove credentials from local storage
+      localStorage.removeItem('rememberMeUsername');
+      localStorage.removeItem('rememberMePassword');
+    }
 
     this.service.loginApi(email, password).subscribe({
       next: (response) => {

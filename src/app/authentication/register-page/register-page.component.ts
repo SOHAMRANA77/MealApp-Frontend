@@ -116,6 +116,11 @@ export class RegisterPageComponent {
       this.openSnackBar("Passwords do not match");
       return;
     }
+
+    if (this.Email.invalid || this.Password.invalid) {
+        this.openSnackBar('Please fill in all required fields correctly');
+        return;
+      }
     
     const selectedDepartment = this.Department.value;
 
