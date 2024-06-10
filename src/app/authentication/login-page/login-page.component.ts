@@ -32,7 +32,7 @@ export class LoginPageComponent {
   }
 
   ngOnInit() {
-    // Check if user credentials are saved in local storage
+
     const savedUsername = localStorage.getItem('rememberMeUsername');
     const savedPassword = localStorage.getItem('rememberMePassword');
     if (savedUsername && savedPassword) {
@@ -77,11 +77,11 @@ export class LoginPageComponent {
     const password = this.Password.value || '';
 
     if (this.rememberMe) {
-      // Save credentials in local storage
+     
       localStorage.setItem('rememberMeUsername', email);
       localStorage.setItem('rememberMePassword', password);
     } else {
-      // Remove credentials from local storage
+      
       localStorage.removeItem('rememberMeUsername');
       localStorage.removeItem('rememberMePassword');
     }

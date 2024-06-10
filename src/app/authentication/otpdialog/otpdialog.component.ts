@@ -77,7 +77,6 @@ export class OTPdialogComponent {
   buttonDisabled: boolean = false;
 
   startCountdown(totalSeconds: number) {
-    // Disable the button
     this.buttonDisabled = true;
   
     this.interval = setInterval(() => {
@@ -87,11 +86,9 @@ export class OTPdialogComponent {
   
       if (totalSeconds <= 0) {
         clearInterval(this.interval);
-        // Enable the button and reset countdown display
         this.buttonDisabled = false;
         this.countdownMinutes = 0;
         this.countdownSeconds = 0;
-        // Here you can perform any action when countdown finishes
       }
     }, 1000);
   }

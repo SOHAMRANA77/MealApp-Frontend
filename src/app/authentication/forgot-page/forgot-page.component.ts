@@ -37,18 +37,6 @@ export class ForgotPageComponent {
     return control.hasError('email') ? 'Not a valid email' : '';
   }
 
-  // onSubmit() {
-  //   if (this.Email.valid) {
-            
-  //     const emailValue = this.Email.value as string;
-  //     // this.openDialog(emailValue);
-  //     this.otp.SendOtp(emailValue).subscribe((data) => {
-  //       this.openDialog(emailValue);
-  //       this.openSnackBar('OTP Sent');
-  //     });
-  //   }
-  // }
-
   openDialog(email: string): void {
     const dialogRef = this.dialog.open(OTPdialogComponent, {
       data: { email: email }
