@@ -194,7 +194,7 @@ getBookingStatus(date: Date) {
 
         },
         (error: HttpErrorResponse) => {
-          console.error('Error booking meal:', error.message);
+          this.openSnackBar('Error booking meal:'+error.message);
         }
       );
     }
@@ -281,7 +281,7 @@ getBookingStatus(date: Date) {
       return true;
     }
 
-    if (this.hasBooking(this.selectedDate, 'DINNER') && currentHour >= 9 && currentHour < 20) {
+    if (this.hasBooking(this.selectedDate, 'DINNER') && currentHour >= 19 && currentHour < 20) {
       this.CouponMealType='DINNER';
       return true;
     }
@@ -357,6 +357,7 @@ getBookingStatus(date: Date) {
       // minHeight:'500px', // Adjust dimensions as needed
       data: { date: this.selectedDate, mealType: this.CouponMealType } // Pass necessary data to the dialog
     });
+this.mealService.getNotifications(this.token.decodeToken().id);
   }
 
 }

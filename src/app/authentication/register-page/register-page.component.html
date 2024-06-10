@@ -23,7 +23,7 @@
                 <div class="input-addon">
                   <mat-form-field class="form-control" style="border-style: none; height: auto;">
                     <mat-label>User Name</mat-label>
-                    <input matInput placeholder="Soham Rana" [formControl]="Name" required autofocus><!--autofocus-->
+                    <input matInput placeholder="john Wick" [formControl]="Name" required autofocus><!--autofocus-->
                     <mat-error *ngIf="Name.invalid">{{ getErrorMessage(Name) }}</mat-error>
                     <!-- <div class="icon-after icon-green"><i class="icon-check" ></i></div> -->
                   </mat-form-field>
@@ -79,14 +79,14 @@
                   </mat-form-field>
                 </div>
                 
-                  <div class="d-flex align-items-center justify-content-between" style="padding-left: 25px ;">
+                  <!-- <div class="d-flex align-items-center justify-content-between" style="padding-left: 25px ;">
                     <div class="form-group mb-0">
                     <label class="custom-checkbox mb-0"><span class="checkbox__title">Remember Me</span>
                       <input class="checkbox__input" type="checkbox"/><span class="checkbox__checkmark"></span>
                     </label>
                   </div>
     
-                  </div>
+                  </div> -->
   
                   <div class="form-group btn-container" style="padding-bottom: 12px; margin-left: 20px;">
                     <button class="btn btn-xl btn-primary" (click)="Registration()" style="align-content: center; align-items: center; " >Sign Up</button>

@@ -296,6 +296,54 @@
 .close-btn:hover {
   color: #000;
 }
+.change-password-dialog {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background-color: white;
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+  z-index: 1000; /* Ensure it appears above other elements */
+}
+
+.change-password-dialog h2 {
+  margin-top: 0;
+}
+
+.change-password-dialog label {
+  display: block;
+  margin-bottom: 5px;
+}
+
+.change-password-dialog input[type="password"] {
+  width: calc(100% - 50px); /* Adjust width for the toggle button */
+  padding: 10px;
+  margin-bottom: 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+}
+
+.change-password-dialog button[type="submit"],
+.change-password-dialog button[type="button"] {
+  padding: 10px 20px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  background-color: #1e88e5;
+  color: white;
+}
+
+.change-password-dialog button[type="submit"]:disabled {
+  background-color: lightgray;
+  cursor: not-allowed;
+}
+
+.error-message {
+  color: red;
+  margin-top: 5px;
+}
 
 @media (min-width: 200px) {
   .header-right .dropdown-content {

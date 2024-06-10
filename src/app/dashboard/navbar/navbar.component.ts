@@ -1,10 +1,12 @@
-import { Component, HostListener } from '@angular/core';
+import { Component, HostListener, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { CustomAlertDialogComponent } from '../custom-alert-dialog/custom-alert-dialog.component';
 import { ApiService } from '../Services/API/api.service';
 import { AuthService } from 'src/app/authentication/Services/auth.service';
 import { LogoutConfirmationDialogComponent } from '../logout-confirmation-dialog/logout-confirmation-dialog.component';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { Observable } from 'rxjs';
 
 interface Notification {
   type: string;
@@ -12,33 +14,30 @@ interface Notification {
   id: number;
   seen: boolean;
 }
+
 interface NotificationResponse {
   message: string;
   id: number;
   type: string;
   seen: boolean;
 }
+
 interface DeleteNotificationRequest {
   id: number;
   empId: number;
 }
-
 
 @Component({
   selector: 'app-navbar',
   templateUrl: './navbar.component.html',
   styleUrls: ['./navbar.component.css']
 })
-export class NavbarComponent {
+export class NavbarComponent implements OnInit {
   dropdownOpen = false;
   isChangePasswordDialogOpen = false;
   errorMessage: string | null = null;
-  username : string = "";
-  passwordForm = {
-    oldPassword: '',
-    newPassword: '',
-    confirmNewPassword: ''
-  };
+  username: string = "";
+  passwordForm: FormGroup;
 
   // Password visibility toggles
   hideOldPassword = true;
@@ -49,22 +48,31 @@ export class NavbarComponent {
   currentPassword = 'currentPassword123';
 
   notifications: Notification[] = [];
-
   notificationDropdownOpen = false;
+  sidebarOpen = false;
 
-  openSnackBar(msg: string) {
-    this._snackBar.open(msg, 'Close', {
-      horizontalPosition: "center",
-      verticalPosition: "top",
-      duration: 3000
-    });
+  constructor(
+    private dialog: MatDialog,
+    private fb: FormBuilder,
+    private bookingService: ApiService,
+    private token: AuthService,
+    private _snackBar: MatSnackBar
+  ) {
+    this.passwordForm = this.fb.group({
+      oldPassword: ['', Validators.required],
+      newPassword: ['', [
+        Validators.required,
+        Validators.pattern(/^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*\W).{8,}$/)
+      ]],
+      confirmNewPassword: ['', Validators.required]
+    }, { validator: this.passwordMatchValidator });
   }
 
-  constructor(private dialog: MatDialog, private bookingService : ApiService,private token : AuthService,private _snackBar: MatSnackBar) {}
   ngOnInit() {
     this.getNotifications();
     this.GetName();
   }
+
   getNotifications() {
     this.bookingService.getNotifications(this.token.decodeToken().id);
 
@@ -82,8 +90,7 @@ export class NavbarComponent {
   GetName() {
     this.bookingService.getName(this.token.decodeToken().id).subscribe(
       (response: any) => {
-        // Assuming response is a string
-        this.username = response; // Assign the string directly
+        this.username = response;
         console.log("Response:", response);
         console.log("Username:", this.username);
       },
@@ -92,6 +99,7 @@ export class NavbarComponent {
       }
     );
   }
+
   transformNotifications(apiNotifications: NotificationResponse[]): Notification[] {
     const notificationTypeMapping: { [key: string]: string } = {
       'WELCOME': 'welcome',
@@ -124,27 +132,35 @@ export class NavbarComponent {
     this.isChangePasswordDialogOpen = false;
   }
 
-  handleChangePassword() {
-    // if (this.passwordForm.oldPassword !== this.currentPassword) {
-    //   this.errorMessage = 'Old password does not match.';
-    //   return;
-    // }
+  passwordMatchValidator(form: FormGroup) {
+    const newPassword = form.get('newPassword')?.value;
+    const confirmNewPassword = form.get('confirmNewPassword')?.value;
+    if (newPassword !== confirmNewPassword) {
+      form.get('confirmNewPassword')?.setErrors({ passwordMismatch: true });
+    } else {
+      form.get('confirmNewPassword')?.setErrors(null);
+    }
+  }
 
-    if (this.passwordForm.newPassword !== this.passwordForm.confirmNewPassword) {
-      this.openSnackBar('New password and confirm new password do not match.');
-      // this.errorMessage = 'New password and confirm new password do not match.';
+  handleChangePassword() {
+    if (this.passwordForm.invalid) {
       return;
     }
 
-    // If validation passes, close the dialog and reset the form
-    this.currentPassword = this.passwordForm.newPassword;
-    // this.closeChangePasswordDialog();
-    this.passwordForm = {
-      oldPassword: '',
-      newPassword: '',
-      confirmNewPassword: ''
-    };
-    // this.showCustomAlert('Success', 'Password changed successfully!');
+    if (this.passwordForm.get('oldPassword')?.value !== this.currentPassword) {
+      this.openSnackBar('Old password does not match.');
+      return;
+    }
+
+    if (this.passwordForm.get('newPassword')?.value !== this.passwordForm.get('confirmNewPassword')?.value) {
+      this.openSnackBar('New password and confirm new password do not match.');
+      return;
+    }
+
+    this.currentPassword = this.passwordForm.get('newPassword')?.value;
+    this.passwordForm.reset();
+    this.closeChangePasswordDialog();
+    this.showCustomAlert('Success', 'Password changed successfully!');
   }
 
   toggleNotificationDropdown() {
@@ -153,21 +169,18 @@ export class NavbarComponent {
 
   removeNotification(event: Event, id: number, message: string) {
     event.preventDefault();
-  
+
     const index = this.notifications.findIndex(notification => notification.id === id);
     if (index !== -1) {
       this.notifications.splice(index, 1);
       console.log(message, id, this.token.decodeToken().id);
     }
-  
+
     const data: DeleteNotificationRequest = {
       id: id,
       empId: this.token.decodeToken().id
     };
-  
-    // Correctly log the data object
-    console.log("DATA: ", data);
-  
+
     this.bookingService.deleteNotification(data).subscribe(
       (response) => {
         console.log("Delete notification response: ", response);
@@ -177,40 +190,40 @@ export class NavbarComponent {
       }
     );
   }
-  
 
   isSuccess(notification: Notification): boolean {
-    // return notification.message.toLowerCase().includes('successfully');
     return notification.type == 'mealBooked';
   }
 
   isFailure(notification: Notification): boolean {
     return notification.type == 'bookingCancel';
   }
-  isOtp(notification: Notification): boolean{
+
+  isOtp(notification: Notification): boolean {
     return notification.type == ('changePassword' || 'otp');
   }
-  isNew(notification:Notification): boolean{
+
+  isNew(notification: Notification): boolean {
     return notification.type == 'welcome';
   }
 
   @HostListener('document:click', ['$event'])
-handleClick(event: Event) {
-  const target = event.target as HTMLElement;
-  const sidebar = document.querySelector('.sidebar-container');
-  const profileBtn = document.querySelector('.profile-btn');
+  handleClick(event: Event) {
+    const target = event.target as HTMLElement;
+    const sidebar = document.querySelector('.sidebar-container');
+    const profileBtn = document.querySelector('.profile-btn');
 
-  if (sidebar && !sidebar.contains(target) && profileBtn && !profileBtn.contains(target)) {
-    this.closeSidebar();
+    if (sidebar && !sidebar.contains(target) && profileBtn && !profileBtn.contains(target)) {
+      this.closeSidebar();
+    }
+
+    const notificationDropdown = document.querySelector('.notification-dropdown-content');
+    const notificationBtn = document.querySelector('.notification-btn');
+
+    if (notificationDropdown && notificationBtn && !notificationDropdown.contains(target) && !notificationBtn.contains(target)) {
+      this.notificationDropdownOpen = false;
+    }
   }
-
-  const notificationDropdown = document.querySelector('.notification-dropdown-content');
-  const notificationBtn = document.querySelector('.notification-btn');
-
-  if (notificationDropdown && notificationBtn && !notificationDropdown.contains(target) && !notificationBtn.contains(target)) {
-    this.notificationDropdownOpen = false;
-  }
-}
 
   showCustomAlert(title: string, message: string): void {
     this.dialog.open(CustomAlertDialogComponent, {
@@ -221,10 +234,9 @@ handleClick(event: Event) {
     });
   }
 
-  Logout(event: Event):void{
+  Logout(event: Event): void {
     console.log('Logout button clicked.');
     event.preventDefault();
-    // this.showCustomAlert('Warning', 'Do you really want to logout?');
     const logoutDialogRef = this.dialog.open(LogoutConfirmationDialogComponent);
 
     logoutDialogRef.afterClosed().subscribe(result => {
@@ -232,49 +244,43 @@ handleClick(event: Event) {
         this.token.logout();
       }
     });
-    
-    
   }
 
-
   ChangePassword() {
-    // Password change logic here
-    if (this.passwordForm.newPassword !== this.passwordForm.confirmNewPassword) {
-      this.openSnackBar('New passwords do not match');
+    if (this.passwordForm.invalid) {
+      this.openSnackBar('Form is invalid. Please correct the errors.');
       return;
     }
 
     const id = this.token.decodeToken().email;
-
     const data = {
       email: id,
-      oldPassword: this.passwordForm.oldPassword,
-      newPassword: this.passwordForm.newPassword
+      oldPassword: this.passwordForm.get('oldPassword')?.value,
+      newPassword: this.passwordForm.get('newPassword')?.value
     };
 
-      this.bookingService.changePassword(data).subscribe(
-        response => {
-          if(response.status == false){
-            this.openSnackBar(response.message);
-          }
-          if(response.status == true){
-            this.openSnackBar(response.message);
-            console.log('Password change successful:', response);
-            this.closeChangePasswordDialog();
-            this.showCustomAlert('Success', 'Password changed successfully!');
-          }
-        },
-        error => {
-          this.openSnackBar('Password change error: '+error);
-          this.errorMessage = 'Password change failed';
+    this.bookingService.changePassword(data).subscribe(
+      response => {
+        if (response.status == false) {
+          this.openSnackBar(response.message);
+        } else if (response.status == true) {
+          this.openSnackBar(response.message);
+          console.log('Password change successful:', response);
+          this.closeChangePasswordDialog();
+          this.showCustomAlert('Success', 'Password changed successfully!');
         }
-      );
+      },
+      error => {
+        this.openSnackBar('Password change error: ' + error);
+        this.errorMessage = 'Password change failed';
+      }
+    );
   }
 
   removeAllNotifications(event: Event) {
     event.preventDefault();
-    this.notifications = [];
-  
+    this.notifications = [];
+
     const data: DeleteNotificationRequest = {
       id: 0,
       empId: this.token.decodeToken().id
@@ -288,13 +294,33 @@ handleClick(event: Event) {
         console.error('Error deleting notification', error);
       }
     );
+  }
+
+  closeSidebar() {
+    this.sidebarOpen = false;
+  }
+
+  toggleSidebar() {
+    this.sidebarOpen = !this.sidebarOpen;
+  }
+
+  openSnackBar(msg: string) {
+    this._snackBar.open(msg, 'Close', {
+      horizontalPosition: "center",
+      verticalPosition: "top",
+      duration: 3000
+    });
+  }
+
+  togglePasswordVisibility(fieldId: string) {
+    if (fieldId === 'oldPassword') {
+      this.hideOldPassword = !this.hideOldPassword;
+    } else if (fieldId === 'newPassword') {
+      this.hideNewPassword = !this.hideNewPassword;
+    } else if (fieldId === 'confirmNewPassword') {
+      this.hideConfirmNewPassword = !this.hideConfirmNewPassword;
     }
-    sidebarOpen = false;
-    closeSidebar() {
-      this.sidebarOpen = false; // Set sidebarOpen to false to close the sidebar
-    }
+  }
   
-    toggleSidebar() {
-      this.sidebarOpen = !this.sidebarOpen;
-    }
+
 }
