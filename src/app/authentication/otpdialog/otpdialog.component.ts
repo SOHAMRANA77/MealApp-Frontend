@@ -15,8 +15,14 @@ export class OTPdialogComponent {
   hideConfirmPassword: boolean = true;
   showChangePassword: boolean = false
 
-  Password = new FormControl('', Validators.required);
-  CoPassword = new FormControl('', Validators.required);
+  Password = new FormControl('', [
+    Validators.required,
+    Validators.pattern(/^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*\W).{8,}$/)
+  ]);
+  CoPassword = new FormControl('', [
+    Validators.required,
+    Validators.pattern(/^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*\W).{8,}$/)
+  ]);
 
   OTP = new FormControl("", [Validators.required]);
 
@@ -53,11 +59,8 @@ export class OTPdialogComponent {
     if (control.hasError('required')) {
       return 'You must enter a value';
     }
-    if (control.hasError('email')) {
-      return 'Not a valid email';
-    }
-    if (control.hasError('pattern')) {
-      return 'Phone number must be 10 digits';
+    if (control === this.Password && control.hasError('pattern')) {
+      return '8+ chars with lowercase, uppercase, digit, and special character.';
     }
     return '';
   }

@@ -239,10 +239,10 @@ handleClick(event: Event) {
 
   ChangePassword() {
     // Password change logic here
-    // if (this.passwordForm.newPassword !== this.passwordForm.confirmNewPassword) {
-    //   this.errorMessage = 'New passwords do not match';
-    //   return;
-    // }
+    if (this.passwordForm.newPassword !== this.passwordForm.confirmNewPassword) {
+      this.openSnackBar('New passwords do not match');
+      return;
+    }
 
     const id = this.token.decodeToken().email;
 
@@ -252,23 +252,23 @@ handleClick(event: Event) {
       newPassword: this.passwordForm.newPassword
     };
 
-    this.bookingService.changePassword(data).subscribe(
-      response => {
-        if(response.status == false){
-          this.openSnackBar(response.message);
+      this.bookingService.changePassword(data).subscribe(
+        response => {
+          if(response.status == false){
+            this.openSnackBar(response.message);
+          }
+          if(response.status == true){
+            this.openSnackBar(response.message);
+            console.log('Password change successful:', response);
+            this.closeChangePasswordDialog();
+            this.showCustomAlert('Success', 'Password changed successfully!');
+          }
+        },
+        error => {
+          this.openSnackBar('Password change error: '+error);
+          this.errorMessage = 'Password change failed';
         }
-        if(response.status == true){
-          this.openSnackBar(response.message);
-          console.log('Password change successful:', response);
-          this.closeChangePasswordDialog();
-          this.showCustomAlert('Success', 'Password changed successfully!');
-        }
-      },
-      error => {
-        this.openSnackBar('Password change error: '+error);
-        this.errorMessage = 'Password change failed';
-      }
-    );
+      );
   }
 
   removeAllNotifications(event: Event) {

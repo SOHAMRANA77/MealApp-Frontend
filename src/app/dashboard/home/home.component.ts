@@ -186,9 +186,9 @@ getBookingStatus(date: Date) {
           this.mealService.getNotifications(this.token.decodeToken().id);
           this.refreshCalendarView();
           if(response.status = true){
-            this.openSnackBar("Booking Succsessful");
+            this.openSnackBar(response.message);
           }else{
-            this.openSnackBar("Booking Failed");
+            this.openSnackBar(response.message);
           }
           
 
@@ -215,7 +215,7 @@ getBookingStatus(date: Date) {
           console.log(response);
           this.mealService.getNotifications(this.token.decodeToken().id);
           this.waitForSeconds1(10);
-          console.log("clock : " ,10);
+          // console.log("clock : " ,10);
           this.getBookedDate();
           this.refreshCalendarView();
           this.openSnackBar(response.message);
