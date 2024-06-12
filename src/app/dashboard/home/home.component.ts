@@ -281,7 +281,7 @@ getBookingStatus(date: Date) {
       return true;
     }
 
-    if (this.hasBooking(this.selectedDate, 'DINNER') && currentHour >= 19 && currentHour < 20) {
+    if (this.hasBooking(this.selectedDate, 'DINNER') && currentHour >= 9 && currentHour < 20) {
       this.CouponMealType='DINNER';
       return true;
     }
