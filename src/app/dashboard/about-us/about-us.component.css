@@ -42,73 +42,129 @@ body, html {
     z-index: 1;
 }
 
-/* About Section Styling */
-#about-head {
+/* Developer Info Plates Styling */
+#developers {
     display: flex;
     flex-wrap: wrap;
-    align-items: center;
     justify-content: center;
+    align-items: center;
     padding: 50px 20px;
     background-color: #f5f5f5;
     text-align: center;
 }
 
-#about-head img {
-    max-width: 600px; /* Adjust max width to make the image smaller */
-    width: 100%;
-    height: auto;
-    border-radius: 50px;
+.developer-card {
+    background-color: white;
+    border-radius: 15px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     margin: 20px;
-    flex: 1 1 300px; /* Ensure the image takes up some space but is responsive */
-}
-
-#about-head div {
     max-width: 600px;
-    padding: 20px;
-    flex: 1 1 300px; /* Ensure the text takes up some space but is responsive */
-}
-
-#about-head h2 {
-    font-size: 2rem;
-    margin-bottom: 20px;
-}
-
-#about-head p, #about-head abbr {
-    font-size: 1rem;
-    line-height: 1.6;
-    color: #333;
-}
-
-/* Marquee Styling */
-.marquee-container {
-    background-color: #ccc;
-    border-radius: 50px;
-    overflow: hidden;
     width: 100%;
-    margin-top: 20px;
+    overflow: hidden;
+    flex: 1 1 600px;
+    display: flex;
+    align-items: center;
 }
 
-.marquee-container marquee {
-    padding: 10px 0;
-    font-size: 1.2rem;
+.developer-card img {
+    width: 50%;
+    height: auto;
+    border-right: 2px solid #ddd;
+}
+
+.developer-info {
+    padding: 20px;
+    width: 50%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.developer-info h2 {
+    font-size: 1.5rem;
+    margin-bottom: 10px;
+}
+
+.developer-info p {
+    font-size: 1rem;
     color: #333;
+    margin-bottom: 15px;
 }
 
-/* Responsive Adjustments */
+.social-links {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+}
+
+.social-links a {
+    text-decoration: none;
+}
+
+.btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 5px;
+    padding: 10px 20px;
+    font-size: 1rem;
+    color: white;
+    background-color: #0073b1; /* LinkedIn color */
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.btn .fab, .btn .fas {
+    font-size: 1.2rem;
+}
+
+.btn:hover {
+    background-color: #005582; /* Darker LinkedIn color */
+}
+
+.btn:nth-child(2) {
+    background-color: #333; /* GitHub color */
+}
+
+.btn:nth-child(2):hover {
+    background-color: #24292e; /* Darker GitHub color */
+}
+
+.btn:nth-child(3) {
+    background-color: #4CAF50; /* Portfolio color */
+}
+
+.btn:nth-child(3):hover {
+    background-color: #388E3C; /* Darker Portfolio color */
+}
+
 @media (max-width: 768px) {
     #page-header h2 {
         font-size: 2rem;
         padding: 0.5rem 1rem;
     }
 
-    #about-head {
+    #developers {
         flex-direction: column;
-        text-align: center;
     }
 
-    #about-head div {
+    .developer-card {
+        flex-direction: column;
         max-width: 100%;
-        padding: 0 20px;
+        margin: 10px;
+    }
+
+    .developer-card img {
+        width: 100%;
+        border-right: none;
+        border-bottom: 2px solid #ddd;
+    }
+
+    .developer-info {
+        width: 100%;
     }
 }
 
@@ -117,11 +173,20 @@ body, html {
         font-size: 1.5rem;
     }
 
-    #about-head h2 {
-        font-size: 1.5rem;
+    .developer-info h2 {
+        font-size: 1.2rem;
     }
 
-    #about-head p, #about-head abbr, .marquee-container marquee {
+    .developer-info p {
         font-size: 0.875rem;
+    }
+
+    .btn {
+        font-size: 0.875rem;
+        padding: 8px 16px;
+    }
+
+    .btn .fab, .btn .fas {
+        font-size: 1rem;
     }
 }

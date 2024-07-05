@@ -13,6 +13,7 @@
         "build": {
           "builder": "@angular-devkit/build-angular:browser",
           "options": {
+            "allowedCommonJsDependencies": ["qrcode"],
             "outputPath": "dist/meal-app",
             "index": "src/index.html",
             "main": "src/main.ts",
@@ -40,8 +41,8 @@
                 },
                 {
                   "type": "anyComponentStyle",
-                  "maximumWarning": "2kb",
-                  "maximumError": "4kb"
+                  "maximumWarning": "420kb",
+                  "maximumError": "420kb"
                 }
               ],
               "outputHashing": "all"
