@@ -93,7 +93,7 @@ app/
 #### Dashboard Module
 
 - **Home**: The landing page after a successful login.
-  ![Home](/src/assets/readme/Homepage.png)
+  ![Home](/src/assets/readme/Homepage2.png)
 
 - **About Us**: Information about the app and its purpose.
   ![About Us](/src/assets/readme/aboutme.png)
