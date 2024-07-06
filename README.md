@@ -141,7 +141,7 @@ Use the `BookingService` for managing meal bookings, including creating, canceli
 Use the `NotificationService` for displaying notifications with different colors based on the activity:
 - Green for success.
 - Yellow for warnings.
-- Red for errors.
+- red for errors.
 
 #### QR Code Generation
 
@@ -154,5 +154,3 @@ This Meal App Website project aims to provide a seamless meal booking experience
 For any further questions or contributions, please refer to the project's GitHub repository.
 
 ---
-
-Feel free to adjust the paths to the screenshots according to your actual project setup.
