@@ -4,6 +4,10 @@
 
 Welcome to the Meal App Website! This project is designed to streamline the process of meal booking and collection with an intuitive interface and robust functionality. The frontend of this application is built using Angular, ensuring a dynamic, responsive, and user-friendly experience.
 
+### Backend Code
+
+To check out the backend code, visit the [Meal App Backend Repository](https://github.com/SOHAMRANA77/MealApp-Backend).
+
 ### Key Features
 
 1. **Login Page**
