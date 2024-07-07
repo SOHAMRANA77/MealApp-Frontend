@@ -28,7 +28,7 @@ To check out the backend code, visit the [Meal App Backend Repository](https://g
 
 1. **Clone the Repository**
     ```sh
-    git clone https://github.com/yourusername/meal-app-website.git
+    git clone https://github.com/SOHAMRANA77/MealApp-Frontend.git
     ```
 2. **Navigate to the Project Directory**
     ```sh
